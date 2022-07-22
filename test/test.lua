@@ -1,23 +1,23 @@
-local potential_paths = {
-'../bin/windows/vs2013/x32/Release/?.dll',
-'../bin/windows/vs2013/x32/Debug/?.dll',
-'../bin/windows/vs2013/x64/Release/?.dll',
-'../bin/windows/vs2013/x64/Debug/?.dll',
-'../bin/windows/vs2013/native/Release/?.dll',
-'../bin/windows/vs2013/native/Debug/?.dll',
-'../bin/linux/gmake/x32/Release/?.so',
-'../bin/linux/gmake/x32/Debug/?.so',
-'../bin/linux/gmake/x64/Release/?.so',
-'../bin/linux/gmake/?.so',
-'../bin/linux/gmake/x64/Debug/?.so',
-'../bin/macosx/gmake/x32/Debug/?.so',
-'../bin/macosx/gmake/x32/Release/?.so',
-'../bin/macosx/gmake/x64/Debug/?.so',
-'../bin/macosx/gmake/x64/Release/?.so'
-}
+-- local potential_paths = {
+-- '../bin/windows/vs2013/x32/Release/?.dll',
+-- '../bin/windows/vs2013/x32/Debug/?.dll',
+-- '../bin/windows/vs2013/x64/Release/?.dll',
+-- '../bin/windows/vs2013/x64/Debug/?.dll',
+-- '../bin/windows/vs2013/native/Release/?.dll',
+-- '../bin/windows/vs2013/native/Debug/?.dll',
+-- '../bin/linux/gmake/x32/Release/?.so',
+-- '../bin/linux/gmake/x32/Debug/?.so',
+-- '../bin/linux/gmake/x64/Release/?.so',
+-- '../bin/linux/gmake/?.so',
+-- '../bin/linux/gmake/x64/Debug/?.so',
+-- '../bin/macosx/gmake/x32/Debug/?.so',
+-- '../bin/macosx/gmake/x32/Release/?.so',
+-- '../bin/macosx/gmake/x64/Debug/?.so',
+-- '../bin/macosx/gmake/x64/Release/?.so'
+-- }
 
-local extra_cpath = table.concat(potential_paths, ";");
-package.cpath = extra_cpath..';'..package.cpath
+-- local extra_cpath = table.concat(potential_paths, ";");
+-- package.cpath = extra_cpath..';'..package.cpath
 
 assert(require 'xerceslua')
 
@@ -25,6 +25,27 @@ local parser=xerces.XercesDOMParser()
 parser:loadGrammar("sample.xsd",xerces.GrammarType.SchemaGrammarType)
 parser:setValidationScheme(xerces.ValSchemes.Val_Always)
 local log=parser:parse("sample.xml")
+print('parse ok: ',log.Ok)
+if not log.Ok then
+    print('error count: ', log.Count)
+    for i=0,log.Count-1 do
+        local err=log:GetLogEntry(i)
+        print(err.SystemId
+        		..', l:'..err.LineNumber
+        		..', c:'..err.ColumnNumber
+        		..', e:'..err.Message
+		)
+    end
+end
+
+local log=parser:parse_string([[<?xml version="1.0" encoding="UTF-8"?>
+<libraries xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="sample.xsd">
+	<library>
+		<name>pugilua</name>
+		<url>https://github.com/d-led/pugilua</url>
+		<no_such_field />
+	</library>
+</libraries>]])
 print('parse ok: ',log.Ok)
 if not log.Ok then
     print('error count: ', log.Count)

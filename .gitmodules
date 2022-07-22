@@ -1,6 +1,0 @@
-[submodule "deps/xerces-c"]
-	path = deps/xerces-c
-	url = https://github.com/apache/xerces-c.git
-[submodule "premake"]
-	path = premake
-	url = https://github.com/d-led/premake-meta-cpp.git

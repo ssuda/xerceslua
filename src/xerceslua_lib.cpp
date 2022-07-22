@@ -14,8 +14,9 @@
 
 #include <xercesc/parsers/XercesDOMParser.hpp>
 #include <xercesc/sax/HandlerBase.hpp>
+#include <xercesc/framework/MemBufInputSource.hpp>
 
-XERCES_CPP_NAMESPACE_USE
+using namespace XERCES_CPP_NAMESPACE;
 
     namespace xerces {
         namespace lua {
@@ -80,11 +81,11 @@ XERCES_CPP_NAMESPACE_USE
                     return entries.size()==0;
                 }
 
-                RefCountedPtr<ErrorData> GetLogEntry(size_t pos) const {
+		luabridge::RefCountedPtr<ErrorData> GetLogEntry(size_t pos) const {
                     if (pos>=0 && pos<entries.size())
-                        return RefCountedPtr<ErrorData>(new ErrorData(entries[pos]));
+                        return luabridge::RefCountedPtr<ErrorData>(new ErrorData(entries[pos]));
                     else
-                        return RefCountedPtr<ErrorData>(new ErrorData);
+                        return luabridge::RefCountedPtr<ErrorData>(new ErrorData);
                 }
             private:
                 std::vector<ErrorData> entries;
@@ -176,12 +177,21 @@ XERCES_CPP_NAMESPACE_USE
                     parser.setValidationScheme((XercesDOMParser::ValSchemes)scheme);
                 }
 
-                RefCountedPtr<ErrorLog> parse(const char* filename) {
+		luabridge::RefCountedPtr<ErrorLog> parse(const char* filename) {
                     CustomErrorHandler eh;
                     parser.setErrorHandler(&eh);
                     parser.parse(filename);
-                    return RefCountedPtr<ErrorLog>(new ErrorLog(eh.Get()));
+                    return luabridge::RefCountedPtr<ErrorLog>(new ErrorLog(eh.Get()));
                 }
+
+        luabridge::RefCountedPtr<ErrorLog> parse_string(const char* xmlstr) {
+                    CustomErrorHandler eh;
+                    parser.setErrorHandler(&eh);
+                    MemBufInputSource src((const XMLByte*)xmlstr, strlen(xmlstr), "dummy", false);
+                    parser.parse(src);
+                    return luabridge::RefCountedPtr<ErrorLog>(new ErrorLog(eh.Get()));
+                }
+
             private:
                 XercesDOMParser parser;
             };
@@ -241,6 +251,7 @@ void register_xerceslua (lua_State* L) {
             .addFunction("loadGrammar",&lXercesDOMParser::loadGrammar)
             .addFunction("setValidationScheme",&lXercesDOMParser::setValidationScheme)
             .addFunction("parse",&lXercesDOMParser::parse)
+            .addFunction("parse_string",&lXercesDOMParser::parse_string)
         .endClass()
 
         .endNamespace()
