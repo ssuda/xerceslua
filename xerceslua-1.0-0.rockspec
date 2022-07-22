@@ -1,7 +1,8 @@
 package = "xerceslua"
 version = "1.0-0"
 source = {
-   url = "https://github.com/ssuda/xerceslua"
+   url = "git://github.com/ssuda/xerceslua",
+   tag = "v1.0",
 }
 description = {
    summary = "A minimal lua wrapper of Xerces-C++ in order to be able to validate xml files.",
