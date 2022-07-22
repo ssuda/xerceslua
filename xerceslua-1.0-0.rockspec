@@ -8,7 +8,7 @@ description = {
    detailed = [[
       A minimal lua wrapper of Xerces-C++ in order to be able to validate xml files.
    ]],
-   license = "MIT/X11" -- or whatever you like
+   license = "MIT"
 }
 dependencies = {
    "lua >= 5.1, < 5.4"
