@@ -42,11 +42,16 @@ Dependencies
 Ubuntu:
 # sudo apt install libxerces-c-dev
 
-Mac OSx:
+Mac OS X:
 # brew install xerces-c
 
 Centos:
 # dnf install xerces-c-devel
+````
+
+* Run sample
+````
+$ cd test && lua test.lua
 ````
  
 
