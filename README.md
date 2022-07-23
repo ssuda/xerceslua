@@ -37,9 +37,18 @@ run `test.bat` (or `test.lua`) from the `test` directory.
 Dependencies
 ------------
 
- * [Xerces-C++](http://xerces.apache.org/xerces-c/) the original library, unpack the source into the xerceslua directory
- * [lua](http://www.lua.org/) the language, Lua 5.1.4 from [luaforwindows](http://code.google.com/p/luaforwindows/), but it should work for every proper lua which is supported by LuaBridge
- * [LuaBridge](https://github.com/vinniefalco/LuaBridge) for the declarative bindings to Lua
+ * [Xerces-C++](http://xerces.apache.org/xerces-c/) 
+````
+Ubuntu:
+# sudo apt install libxerces-c-dev
+
+Mac OSx:
+# brew install xerces-c
+
+Centos:
+# dnf install xerces-c-devel
+````
+ 
 
 License
 -------
