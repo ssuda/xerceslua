@@ -1,0 +1,2225 @@
+{
+  "info": {
+    "title": "NAB Payments API",
+    "contact": {
+      "name": "NAB API Developer Portal",
+      "email": "nabapi@nab.com.au"
+    },
+    "version": "v1.0",
+    "x-appId": "BA1585",
+    "description": "# Overview\nUse NAB Payments API sandbox environment to explore how you can interact with NAB’s Fast Payment and the associated suite of Payments APIs.\n\nAll responses in the sandbox are stubbed and some elements may look or respond differently in production.\n### Key API features\nThe Fast Payment API service within this sandbox environment includes the following functionality that enables customers to connect with NAB’s Fast Payments test infrastructure and to simulate sending a Single Credit Transfer of a Fast Payment.\n- **Payment Eligibility:** Reduce payment rejections by knowing upfront whether the Payer and Payee’s bank accounts can accept Fast Payments, including whether the respective banks Fast Payments service is operational and available.\n\n- **Create Payment:** Make a call to the API and receive mocked responses.  This API allows testing to initiate a Single Credit Transfer\n Fast Payment to a BSB and Account Number.  NB not transferring value payments.\n\n\n- **Get Payment Status:** Retrieve the status of the submitted payment.\n\n### Key use-cases\nHere are some use cases where the Payments API could be leveraged:\n- Payment from a digital wallet to an Australian bank account\n- Insurance payouts\n- Processing refunds\n- Loan disbursements or inter-account transfers\n- Emergency relief payments\n- Payroll\n\n# Authentication\n\n<!-- ReDoc-Inject: <security-definitions> -->",
+    "termsOfService": "https://www.nab.com.au/about-us/using-this-site/developer-terms-and-conditions",
+    "x-revision-date": 20220324,
+    "x-external-description": "# Overview\nUse NAB Payments API sandbox environment to explore how you can interact with NAB’s Fast Payment and the associated suite of Payments APIs.\n\nAll responses in the sandbox are stubbed and some elements may look or respond differently in production.\n### Key API features\nThe Fast Payment API service within this sandbox environment includes the following functionality that enables customers to connect with NAB’s Fast Payments test infrastructure and to simulate sending a Single Credit Transfer of a Fast Payment.\n- **Payment Eliagibility:** Reduce payment rejections by knowing upfront whether the Payer and Payee’s bank accounts can accept Fast Payments, including whether the respective banks Fast Payments service is operational and available.\n\n- **Create Payment:** Make a call to the API and receive mocked responses.  This API allows testing to initiate a Single Credit Transfer\n Fast Payment to a BSB and Account Number.  NB not transferring value payments.\n\n\n- **Get Payment Status:** Retrieve the status of the submitted payment.\n\n### Key use-cases\nHere are some use cases where the Payments API could be leveraged:\n- Payment from a digital wallet to an Australian bank account\n- Insurance payouts\n- Processing refunds\n- Loan disbursements or inter-account transfers\n- Emergency relief payments\n- Payroll"
+  },
+  "tags": [
+    {
+      "name": "Fast Payment APIs"
+    }
+  ],
+  "paths": {
+    "/v1/payments/payment-initiation": {
+      "post": {
+        "tags": [
+          "Fast Payment APIs"
+        ],
+        "summary": "Create Payment",
+        "responses": {
+          "202": {
+            "content": {
+              "application/xml": {
+                "schema": {
+                  "$ref": "#/components/schemas/PaymentInitiationResponse"
+                },
+                "examples": {
+                  "Accepted Technical Validation [ACTC]": {
+                    "value": "<?xml version=\"1.0\" encoding=\"UTF-8\" standalone=\"yes\"?> <ns3:Document xmlns:ns2=\"urn:iso:std:iso:20022:tech:xsd:pain.001.001.06\" xmlns:ns3=\"urn:iso:std:iso:20022:tech:xsd:pain.002.001.06\">\n  <ns3:CstmrPmtStsRpt>\n    <ns3:GrpHdr>\n      <ns3:MsgId>83aac66b262a4616936290095feb8c34</ns3:MsgId>\n      <ns3:CreDtTm>2021-07-16T02:38:55.000Z</ns3:CreDtTm>\n      <ns3:InitgPty>\n        <ns3:Id>\n          <ns3:OrgId>\n            <ns3:Othr>\n              <ns3:Id>CUSTAPI</ns3:Id>\n            </ns3:Othr>\n          </ns3:OrgId>\n        </ns3:Id>\n      </ns3:InitgPty>\n    </ns3:GrpHdr>\n    <ns3:OrgnlGrpInfAndSts>\n      <ns3:OrgnlMsgId>83aac66b262a4616936290095feb8c34</ns3:OrgnlMsgId>\n      <ns3:OrgnlMsgNmId>PAIN.002.001.06</ns3:OrgnlMsgNmId>\n      <ns3:OrgnlCreDtTm>2021-06-23T09:46:12.000+10:00</ns3:OrgnlCreDtTm>\n      <ns3:OrgnlNbOfTxs>1</ns3:OrgnlNbOfTxs>\n      <ns3:OrgnlCtrlSum>16.00</ns3:OrgnlCtrlSum>\n    </ns3:OrgnlGrpInfAndSts>\n    <ns3:OrgnlPmtInfAndSts>\n      <ns3:OrgnlPmtInfId>83aac66b262a4616936290095feb8c34</ns3:OrgnlPmtInfId>\n        <ns3:TxInfAndSts>\n          <ns3:OrgnlInstrId>a23657d04d7d11ec81d30242ac130003</ns3:OrgnlInstrId>\n          <ns3:OrgnlEndToEndId>83aac66b262a4616936290095feb8c34</ns3:OrgnlEndToEndId>\n          <ns3:TxSts>ACTC</ns3:TxSts>\n          <ns3:StsRsnInf>\n            <ns3:AddtlInf>UETR/4e2d9176-8e0f-4aae-9cce-88306e507dcf</ns3:AddtlInf>\n          </ns3:StsRsnInf>\n          <ns3:OrgnlTxRef>\n            <ns3:Amt>\n              <ns3:InstdAmt Ccy=\"AUD\">16.00</ns3:InstdAmt>\n            </ns3:Amt>\n            <ns3:ReqdExctnDt>2021-06-23+10:00</ns3:ReqdExctnDt>\n            <ns3:RmtInf>\n              <ns3:Ustrd>Bills</ns3:Ustrd>\n            </ns3:RmtInf>\n            <ns3:Dbtr>\n              <ns3:Nm>Sandbox Example Client</ns3:Nm>\n              <ns3:PstlAdr>\n                <ns3:AdrTp>BIZZ</ns3:AdrTp>\n                <ns3:PstCd>3008</ns3:PstCd>\n                <ns3:TwnNm>Docklands</ns3:TwnNm>\n                <ns3:CtrySubDvsn>VIC</ns3:CtrySubDvsn>\n                <ns3:Ctry>AU</ns3:Ctry>\n                <ns3:AdrLine>Level 16, 999 Bourke St</ns3:AdrLine>\n              </ns3:PstlAdr>\n            </ns3:Dbtr>\n            <ns3:DbtrAcct>\n                <ns3:Id>\n                  <ns3:Othr>\n                    <ns3:Id>085116123456789</ns3:Id>\n                    <ns3:SchmeNm>\n                      <ns3:Cd>BBAN</ns3:Cd>\n                    </ns3:SchmeNm>\n                    <ns3:Issr>085116</ns3:Issr>\n                  </ns3:Othr>\n                </ns3:Id>\n            </ns3:DbtrAcct>\n            <ns3:CdtrAgt>\n              <ns3:FinInstnId/>\n            </ns3:CdtrAgt>\n            <ns3:Cdtr>\n              <ns3:Nm>Sandbox Example Business</ns3:Nm>\n            </ns3:Cdtr>\n            <ns3:CdtrAcct>\n              <ns3:Id>\n                <ns3:Othr>\n                  <ns3:Id>732231987654321</ns3:Id>\n                  <ns3:SchmeNm>\n                    <ns3:Cd>BBAN</ns3:Cd>\n                  </ns3:SchmeNm>\n                  <ns3:Issr>732231</ns3:Issr>\n                </ns3:Othr>\n              </ns3:Id>\n            </ns3:CdtrAcct>\n        </ns3:OrgnlTxRef>\n      </ns3:TxInfAndSts>\n    </ns3:OrgnlPmtInfAndSts>\n  </ns3:CstmrPmtStsRpt>\n</ns3:Document>",
+                    "summary": "Authentication and syntactical and semantical validation are successful."
+                  }
+                }
+              }
+            },
+            "description": "Successful operation"
+          },
+          "400": {
+            "content": {
+              "application/xml": {
+                "schema": {
+                  "$ref": "#/components/schemas/PaymentInitiationResponse"
+                },
+                "examples": {
+                  "Bad Request [DU05]": {
+                    "value": "<?xml version=\"1.0\" encoding=\"UTF-8\" standalone=\"yes\"?> <ns3:Document xmlns:ns2=\"urn:iso:std:iso:20022:tech:xsd:pain.001.001.06\" xmlns:ns3=\"urn:iso:std:iso:20022:tech:xsd:pain.002.001.06\">\n  <ns3:CstmrPmtStsRpt>\n    <ns3:GrpHdr>\n        <ns3:MsgId>660c323aae724d04a343b813bd68a184</ns3:MsgId>\n        <ns3:CreDtTm>2021-06-29T00:11:38.729Z</ns3:CreDtTm>\n        <ns3:InitgPty>\n            <ns3:Id>\n                <ns3:OrgId>\n                    <ns3:Othr>\n                        <ns3:Id>CUSTAPI</ns3:Id>\n                    </ns3:Othr>\n                </ns3:OrgId>\n            </ns3:Id>\n        </ns3:InitgPty>\n    </ns3:GrpHdr>\n    <ns3:OrgnlGrpInfAndSts>\n        <ns3:OrgnlMsgId>660c323aae724d04a343b813bd68a184</ns3:OrgnlMsgId>\n        <ns3:OrgnlMsgNmId>PAIN.002.001.06</ns3:OrgnlMsgNmId>\n        <ns3:OrgnlCreDtTm>2021-06-23T09:46:12.000+10:00</ns3:OrgnlCreDtTm>\n        <ns3:OrgnlNbOfTxs>1</ns3:OrgnlNbOfTxs>\n        <ns3:OrgnlCtrlSum>16.00</ns3:OrgnlCtrlSum>\n    </ns3:OrgnlGrpInfAndSts>\n    <ns3:OrgnlPmtInfAndSts>\n        <ns3:OrgnlPmtInfId>660c323aae724d04a343b813bd68a184</ns3:OrgnlPmtInfId>\n        <ns3:TxInfAndSts>\n            <ns3:OrgnlInstrId>24beefc613db44a191b236710cef0bf2</ns3:OrgnlInstrId>\n            <ns3:OrgnlEndToEndId>660c323aae724d04a343b813bd68a184</ns3:OrgnlEndToEndId>\n            <ns3:TxSts>RJCT</ns3:TxSts>\n            <ns3:StsRsnInf>\n                <ns3:Rsn>\n                    <ns3:Cd>DU05</ns3:Cd>\n                </ns3:Rsn>\n                <ns3:AddtlInf>UETR/722fbfd6-46fc-4e46-a9a7-a98492adbc35</ns3:AddtlInf>\n                <ns3:AddtlInf>Instruction ID is not unique</ns3:AddtlInf>\n            </ns3:StsRsnInf>\n            <ns3:OrgnlTxRef>\n                <ns3:Amt>\n                    <ns3:InstdAmt Ccy=\"AUD\">16.00</ns3:InstdAmt>\n                </ns3:Amt>\n                <ns3:ReqdExctnDt>2021-06-23+10:00</ns3:ReqdExctnDt>\n                <ns3:RmtInf>\n                    <ns3:Ustrd>Bills</ns3:Ustrd>\n                </ns3:RmtInf>\n                <ns3:Dbtr>\n                    <ns3:Nm>Sandbox Example Client</ns3:Nm>\n                    <ns3:PstlAdr>\n                        <ns3:AdrTp>BIZZ</ns3:AdrTp>\n                        <ns3:PstCd>3008</ns3:PstCd>\n                        <ns3:TwnNm>Docklands</ns3:TwnNm>\n                        <ns3:CtrySubDvsn>VIC</ns3:CtrySubDvsn>\n                        <ns3:Ctry>AU</ns3:Ctry>\n                        <ns3:AdrLine>Level 16, 999 Bourke St</ns3:AdrLine>\n                    </ns3:PstlAdr>\n                </ns3:Dbtr>\n                <ns3:DbtrAcct>\n                    <ns3:Id>\n                        <ns3:Othr>\n                            <ns3:Id>085116123456789</ns3:Id>\n                            <ns3:SchmeNm>\n                                <ns3:Cd>BBAN</ns3:Cd>\n                            </ns3:SchmeNm>\n                            <ns3:Issr>085116</ns3:Issr>\n                        </ns3:Othr>\n                    </ns3:Id>\n                </ns3:DbtrAcct>\n                <ns3:CdtrAgt>\n                    <ns3:FinInstnId/></ns3:CdtrAgt>\n                <ns3:Cdtr>\n                    <ns3:Nm>Sandbox Example Business</ns3:Nm>\n                </ns3:Cdtr>\n                <ns3:CdtrAcct>\n                    <ns3:Id>\n                        <ns3:Othr>\n                            <ns3:Id>085005987654321</ns3:Id>\n                            <ns3:SchmeNm>\n                                <ns3:Cd>BBAN</ns3:Cd>\n                            </ns3:SchmeNm>\n                            <ns3:Issr>085005</ns3:Issr>\n                        </ns3:Othr>\n                    </ns3:Id>\n                </ns3:CdtrAcct>\n            </ns3:OrgnlTxRef>\n        </ns3:TxInfAndSts>\n    </ns3:OrgnlPmtInfAndSts>\n  </ns3:CstmrPmtStsRpt>\n</ns3:Document>"
+                  }
+                }
+              }
+            },
+            "description": "Business Validation Failed"
+          },
+          "401": {
+            "$ref": "#/components/responses/Unauthorized"
+          },
+          "403": {
+            "$ref": "#/components/responses/Forbidden"
+          },
+          "406": {
+            "$ref": "#/components/responses/NotAcceptable"
+          },
+          "415": {
+            "$ref": "#/components/responses/UnsupportedMediaType"
+          },
+          "417": {
+            "$ref": "#/components/responses/TechnicalValidationFailed"
+          },
+          "429": {
+            "$ref": "#/components/responses/TooManyRequests"
+          },
+          "500": {
+            "$ref": "#/components/responses/InternalServerError"
+          },
+          "503": {
+            "$ref": "#/components/responses/ServiceUnavailable"
+          },
+          "504": {
+            "$ref": "#/components/responses/GatewayTimeout"
+          }
+        },
+        "x-swagstar": {
+          "apiAuth": "jwt",
+          "plugins": {
+            "openid-connect-v2": {
+              "acr": [
+                "2"
+              ],
+              "scopes_required": [
+                "payments:payment.fast:create"
+              ],
+              "tls_bound_token": false,
+              "audience_required": [
+                "sandboxapi"
+              ]
+            }
+          },
+          "apiTarget": [
+            "service",
+            "sandbox"
+          ]
+        },
+        "description": "Make a call to the API and receive mocked responses.  This API allows testing to initiate a Single Credit Transfer Fast Payment to a BSB and Account Number.  NB not transferring value payments.",
+        "operationId": "initiatePayment",
+        "requestBody": {
+          "content": {
+            "application/xml": {
+              "schema": {
+                "$ref": "#/components/schemas/PaymentInitiationRequest"
+              },
+              "examples": {
+                "Accepted Technical Validation [ACTC]": {
+                  "value": "<?xml version=\"1.0\" encoding=\"UTF-8\" standalone=\"yes\"?>\n<ns2:Document xmlns:ns2=\"urn:iso:std:iso:20022:tech:xsd:pain.001.001.06\" xmlns:ns3=\"urn:iso:std:iso:20022:tech:xsd:pain.002.001.06\">\n  <ns2:CstmrCdtTrfInitn>\n    <ns2:GrpHdr>\n      <ns2:MsgId>83aac66b262a4616936290095feb8c34</ns2:MsgId>\n      <ns2:CreDtTm>2021-06-23T09:46:12.000+10:00</ns2:CreDtTm>\n      <ns2:NbOfTxs>1</ns2:NbOfTxs>\n      <ns2:CtrlSum>16.00</ns2:CtrlSum>\n      <ns2:InitgPty>\n          <ns2:Id>\n              <ns2:OrgId>\n                  <ns2:Othr>\n                      <ns2:Id>CUSTAPI</ns2:Id>\n                  </ns2:Othr>\n              </ns2:OrgId>\n          </ns2:Id>\n      </ns2:InitgPty>\n    </ns2:GrpHdr>\n    <ns2:PmtInf>\n      <ns2:PmtInfId>83aac66b262a4616936290095feb8c34</ns2:PmtInfId>\n      <ns2:PmtMtd>TRF</ns2:PmtMtd>\n      <ns2:ReqdExctnDt>2021-06-23+10:00</ns2:ReqdExctnDt>\n      <ns2:Dbtr>\n          <ns2:Nm>Sandbox Example Client</ns2:Nm>\n          <ns2:PstlAdr>\n              <ns2:AdrTp>BIZZ</ns2:AdrTp>\n              <ns2:PstCd>3008</ns2:PstCd>\n              <ns2:TwnNm>Docklands</ns2:TwnNm>\n              <ns2:CtrySubDvsn>VIC</ns2:CtrySubDvsn>\n              <ns2:Ctry>AU</ns2:Ctry>\n              <ns2:AdrLine>Level 16, 999 Bourke St</ns2:AdrLine>\n          </ns2:PstlAdr>\n      </ns2:Dbtr>\n      <ns2:DbtrAcct>\n          <ns2:Id>\n              <ns2:Othr>\n                  <ns2:Id>085116123456789</ns2:Id>\n                  <ns2:SchmeNm>\n                      <ns2:Cd>BBAN</ns2:Cd>\n                  </ns2:SchmeNm>\n                  <ns2:Issr>085116</ns2:Issr>\n              </ns2:Othr>\n          </ns2:Id>\n      </ns2:DbtrAcct>\n      <ns2:DbtrAgt>\n          <ns2:FinInstnId>\n              <ns2:BICFI>NATAAU33XXX</ns2:BICFI>\n          </ns2:FinInstnId>\n      </ns2:DbtrAgt>\n      <ns2:CdtTrfTxInf>\n          <ns2:PmtId>\n              <ns2:InstrId>a23657d04d7d11ec81d30242ac130003</ns2:InstrId>\n              <ns2:EndToEndId>83aac66b262a4616936290095feb8c34</ns2:EndToEndId>\n          </ns2:PmtId>\n          <ns2:PmtTpInf>\n              <ns2:InstrPrty>HIGH</ns2:InstrPrty>\n              <ns2:SvcLvl>\n                  <ns2:Prtry>SCT.04</ns2:Prtry>\n              </ns2:SvcLvl>\n          </ns2:PmtTpInf>\n          <ns2:Amt>\n              <ns2:InstdAmt Ccy=\"AUD\">16.00</ns2:InstdAmt>\n          </ns2:Amt>\n          <ns2:CdtrAgt>\n              <ns2:FinInstnId>\n                  <ns2:ClrSysMmbId>\n                      <ns2:MmbId>732231</ns2:MmbId>\n                  </ns2:ClrSysMmbId>\n              </ns2:FinInstnId>\n          </ns2:CdtrAgt>\n          <ns2:Cdtr>\n              <ns2:Nm>Sandbox Example Business</ns2:Nm>\n          </ns2:Cdtr>\n          <ns2:CdtrAcct>\n              <ns2:Id>\n                  <ns2:Othr>\n                      <ns2:Id>732231987654321</ns2:Id>\n                      <ns2:SchmeNm>\n                          <ns2:Cd>BBAN</ns2:Cd>\n                      </ns2:SchmeNm>\n                      <ns2:Issr>732231</ns2:Issr>\n                  </ns2:Othr>\n              </ns2:Id>\n          </ns2:CdtrAcct>\n          <ns2:InstrForDbtrAgt>83aac66b262a4616936290095feb8c34</ns2:InstrForDbtrAgt>\n          <ns2:RmtInf>\n              <ns2:Ustrd>Bills</ns2:Ustrd>\n          </ns2:RmtInf>\n      </ns2:CdtTrfTxInf>\n    </ns2:PmtInf>\n  </ns2:CstmrCdtTrfInitn>\n</ns2:Document>",
+                  "summary": "Authentication and syntactical and semantical validation are successful."
+                }
+              }
+            }
+          },
+          "required": true,
+          "description": "Payment Request in ISO 20022 pain.001.001.06 format"
+        }
+      },
+      "x-swagstar": {
+        "name": "/{version}/payments/payment-initiation"
+      }
+    },
+    "/v1/payments/validations/eligibility": {
+      "post": {
+        "tags": [
+          "Fast Payment APIs"
+        ],
+        "summary": "Payment Eligibility",
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/PaymentEligibilityResponse"
+                },
+                "examples": {
+                  "Scenario 1 - The NPP SCT Service is supported and available": {
+                    "value": {
+                      "toEligibilityList": [
+                        {
+                          "toService": "X2P1.04",
+                          "toFlowControl": "AVAILABLE"
+                        },
+                        {
+                          "toService": "SCT.03",
+                          "toFlowControl": "AVAILABLE"
+                        },
+                        {
+                          "toService": "NONE.01",
+                          "toFlowControl": "AVAILABLE"
+                        },
+                        {
+                          "toService": "X2P1.03",
+                          "toFlowControl": "AVAILABLE"
+                        },
+                        {
+                          "toService": "SCT.04",
+                          "toFlowControl": "AVAILABLE"
+                        }
+                      ],
+                      "fromEligibilityList": [
+                        {
+                          "fromService": "NONE.01",
+                          "nabFlowControl": "AVAILABLE",
+                          "fromFlowControl": "UNKNOWN"
+                        },
+                        {
+                          "fromService": "SCT.03",
+                          "nabFlowControl": "AVAILABLE",
+                          "fromFlowControl": "UNKNOWN"
+                        },
+                        {
+                          "fromService": "SCT.04",
+                          "nabFlowControl": "AVAILABLE",
+                          "fromFlowControl": "UNKNOWN"
+                        }
+                      ],
+                      "additionalInformation": {
+                        "futureDated": "IMMEDIATE"
+                      }
+                    }
+                  }
+                }
+              }
+            },
+            "description": "Success: An account scheduled payment list is returned for a user id and account"
+          },
+          "400": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/PaymentEligibilityError"
+                },
+                "example": {
+                  "errorId": "400",
+                  "message": "Invalid Request",
+                  "errorDetails": [
+                    {
+                      "field": "toIdentifier.toBsb",
+                      "issue": "Should not be blank or null",
+                      "value": "",
+                      "description": "Invalid Request"
+                    }
+                  ]
+                }
+              }
+            },
+            "description": "Invalid Request"
+          },
+          "401": {
+            "$ref": "#/components/responses/Unauthorized"
+          },
+          "403": {
+            "$ref": "#/components/responses/Forbidden"
+          },
+          "404": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/PaymentEligibilityError"
+                }
+              }
+            },
+            "description": "Resource Not Available"
+          },
+          "409": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/PaymentEligibilityError"
+                }
+              }
+            },
+            "description": "Conflict"
+          },
+          "429": {
+            "$ref": "#/components/responses/TooManyRequests"
+          },
+          "500": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/PaymentEligibilityError"
+                },
+                "example": {
+                  "errorId": "700",
+                  "message": "No Match Records Found - Provider system unavailable or unable to process",
+                  "errorDetails": [
+                    {
+                      "issue": "Connection error"
+                    }
+                  ]
+                }
+              }
+            },
+            "description": "Internal Server Error"
+          },
+          "503": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/PaymentEligibilityError"
+                }
+              }
+            },
+            "description": "Service Unavailable"
+          },
+          "504": {
+            "$ref": "#/components/responses/GatewayTimeout"
+          }
+        },
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/NABUserId"
+          },
+          {
+            "$ref": "#/components/parameters/NABChannelName"
+          }
+        ],
+        "x-swagstar": {
+          "apiAuth": "jwt",
+          "plugins": {
+            "openid-connect-v2": {
+              "acr": [
+                "2"
+              ],
+              "scopes_required": [
+                "payments:validations.eligibility:get"
+              ],
+              "tls_bound_token": false,
+              "audience_required": [
+                "sandboxapi"
+              ]
+            }
+          },
+          "apiTarget": [
+            "service",
+            "sandbox"
+          ]
+        },
+        "description": "Reduce payment rejections by knowing upfront whether the Payer and Payee’s bank accounts can accept Fast Payments, including whether the respective banks Fast Payments service is operational and available.\n\nThe New Payments Platform (NPP) currently supports the following two services:\n\n- **SCT:** Single Credit Transfer Service.  Single Credit Transfers are NPP messages that utilise the NPP Basic Infrastructure's ability to make a payment with real-time settlement between financial institutions.  Single Credit Transfers are completed in less than 60 seconds, 24/7 in most instances; however, they do not include rules around how long it should take to make funds available in customers' accounts.\n\n- **X2P:** Osko Service.  The Osko service specifies that funds should be transferred from the payer to the payee in under one minute on a 24/7 basis, along with a payment description of up to 280 characters.\n\nIn addition, each of the services can support concurrent versions to allow each NPP participant to upgrade to the latest industry release/version at different times.\nThe Payment Eligibility API returns the availability of each service version currently supported by the NAB Payer (From Service) and the Payee (To Service) account, e.g.:\n  - **SCT.03:** Single Credit Transfer (SCT) version 3\n  - **SCT.04:** Single Credit Transfer (SCT) version 4\n  - **X2P1.03:** Osko version 3\n  - **X2P1.04:** Osko version 4\n  - **NONE.01:** Default service applied to an account.  Where an account is not eligible for Single Credit Transfer and/or Osko payments, then the default service of NONE indicates that no NPP payment services are available.  \n  \n  As the NAB Fast Payment API currently only supports Single Credit Transfer payments, then the client application needs to check for the highest common version of the Single Credit Transfer service supported by NAB and the Payee accounts.  \n  \n  The following scenarios show how the response fields can be used to check the availability of the Single Credit Transfer service.\n\n\n**Scenario 1:** The Single Credit Transfer (SCT) service is supported and available:\n<table>\n  <tr><th>From Service</th><th>NAB Flow Control</th><th>To Service</th><th>To Flow Control</th><th>Usage Description</th></tr>\n  <tr><td>NONE.01</td><td>AVAILABLE</td><td>NONE.01</td><td>AVAILABLE</td><td>Default service type – can be ignored.</td></tr>\n  <tr><td>SCT.03</td><td>AVAILABLE</td><td>SCT.03</td><td>AVAILABLE</td><td>SCT.03 version is supported by both institutions and is available, however, there is a higher SCT version available.</td></tr>\n  <tr><td>SCT.04</td><td>AVAILABLE</td><td>SCT.04</td><td>AVAILABLE</td><td>The payment should be sent using SCT.04 as this is the highest common SCT version supported and flow control is available for by both institutions. </td></tr>\n  <tr><td></td><td></td><td>X2P1.03</td><td>AVAILABLE</td><td>The X2P1.03 (Osko) service is available from the payee bank but is not currently supported by the Fast Payment API.</td></tr>\n  <tr><td></td><td></td><td>X2P1.04</td><td>AVAILABLE</td><td>The X2P1.04 (Osko) service is available from the payee bank but is not currently supported by the Fast Payment API.</td></tr>\n</table>\n\n**Scenario 2:** The Single Credit Transfer (SCT) service is supported but the payee's bank is unavailable.  In this scenario, the client can either hold the payment until the payee's bank is available and then send the payment instruction, or the client may choose to route the payment to an alternative payment method:\n<table>\n  <tr><th>From Service</th><th>NAB Flow Control</th><th>To Service</th><th>To Flow Control</th><th>Usage Description</th></tr>\n  <tr><td>NONE.01</td><td>AVAILABLE</td><td>NONE.01</td><td>UNAVAILABLE</td><td>Default service type – can be ignored.</td></tr>\n  <tr><td>SCT.03</td><td>AVAILABLE</td><td>SCT.03</td><td>UNAVAILABLE</td><td>SCT.03 version is supported by both institutions, however, the payee bank is unavailable.</td></tr>\n  <tr><td>SCT.04</td><td>AVAILABLE</td><td>SCT.04</td><td>UNAVAILABLE</td><td>SCT.04 version is supported by both institutions and is the highest common SCT version, however, the payee bank is unavailable.</td></tr>\n  <tr><td></td><td></td><td>X2P1.03</td><td>UNAVAILABLE</td><td>The X2P1.03 (Osko) service is supported by the payee bank but is unavailable (as well as not currently supported by the Fast Payment API).</td></tr>\n  <tr><td></td><td></td><td>X2P1.04</td><td>UNAVAILABLE</td><td>The X2P1.04 (Osko) service is supported by the payee bank but is unavailable (as well as not currently supported by the Fast Payment API).</td></tr>\n</table>\n\n**Scenario 3:** The Single Credit Transfer (SCT) service is supported but NAB is unavailable.  In this scenario, the client can either hold the payment until the NAB service is available and then send the payment instruction, or the client may choose to route the payment to an alternative payment method:\n<table>\n  <tr><th>From Service</th><th>NAB Flow Control</th><th>To Service</th><th>To Flow Control</th><th>Usage Description</th></tr>\n  <tr><td>NONE.01</td><td>UNAVAILABLE</td><td>NONE.01</td><td>AVAILABLE</td><td>Default service type – can be ignored.</td></tr>\n  <tr><td>SCT.03</td><td>UNAVAILABLE</td><td>SCT.03</td><td>AVAILABLE</td><td>SCT.03 version is supported by both institutions, however, NAB is unavailable.</td></tr>\n  <tr><td>SCT.04</td><td>UNAVAILABLE</td><td>SCT.04</td><td>AVAILABLE</td><td>SCT.04 version is supported by both institutions and is the highest common SCT version, however, the NAB is unavailable.</td></tr>\n  <tr><td></td><td></td><td>X2P1.03</td><td>AVAILABLE</td><td>The X2P1.03 (Osko) service is available from the payee bank but is not currently supported by the Fast Payment API.</td></tr>\n  <tr><td></td><td></td><td>X2P1.04</td><td>AVAILABLE</td><td>The X2P1.03 (Osko) service is available from the payee bank but is not currently supported by the Fast Payment API.</td></tr>\n</table>",
+        "operationId": "checkPaymentEligibility",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/PaymentEligibilityRequest"
+              }
+            }
+          },
+          "description": "Request for a payment account eligibility check"
+        }
+      },
+      "x-swagstar": {
+        "name": "GET payment-eligibility",
+        "plugins": {
+          "route-rate-limiting": {
+            "second": 30
+          }
+        }
+      }
+    },
+    "/v1/payments/payments/{payment_id}/status": {
+      "get": {
+        "tags": [
+          "Fast Payment APIs"
+        ],
+        "summary": "Get Payment Status",
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/PaymentStatusResponse"
+                },
+                "examples": {
+                  "Accepted Settlement Completed [ACSC]": {
+                    "value": {
+                      "uetr": "4e2d9176-8e0f-4aae-9cce-88306e507dcf",
+                      "status": "ACSC",
+                      "createTs": "2021-06-22T23:46:12.000Z",
+                      "instructionId": "a23657d04d7d11ec81d30242ac130003"
+                    }
+                  }
+                }
+              }
+            },
+            "description": "successful operation"
+          },
+          "400": {
+            "description": "Bad Request"
+          },
+          "401": {
+            "$ref": "#/components/responses/Unauthorized"
+          },
+          "403": {
+            "$ref": "#/components/responses/Forbidden"
+          },
+          "404": {
+            "$ref": "#/components/responses/PaymentStatusNotFound"
+          },
+          "406": {
+            "$ref": "#/components/responses/NotAcceptable"
+          },
+          "429": {
+            "$ref": "#/components/responses/TooManyRequests"
+          },
+          "500": {
+            "$ref": "#/components/responses/InternalServerError"
+          },
+          "503": {
+            "$ref": "#/components/responses/ServiceUnavailable"
+          },
+          "504": {
+            "$ref": "#/components/responses/GatewayTimeout"
+          }
+        },
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/PaymentId"
+          }
+        ],
+        "x-swagstar": {
+          "apiAuth": "jwt",
+          "plugins": {
+            "openid-connect-v2": {
+              "acr": [
+                "2"
+              ],
+              "scopes_required": [
+                "payments:payment.status:view"
+              ],
+              "tls_bound_token": false,
+              "audience_required": [
+                "sandboxapi"
+              ]
+            }
+          },
+          "apiTarget": [
+            "service",
+            "sandbox"
+          ]
+        },
+        "description": "Retrieve the status of the submitted payment.",
+        "operationId": "getPaymentStatus"
+      },
+      "x-swagstar": {
+        "name": "/{version}/payments/payments/{payment_id}/status"
+      }
+    }
+  },
+  "openapi": "3.0.3",
+  "servers": [
+    {
+      "url": "https://sandbox.api.nab.com.au",
+      "description": "NAB Developer Sandbox"
+    }
+  ],
+  "components": {
+    "schemas": {
+      "CdtrAgt": {
+        "xml": {
+          "name": "CdtrAgt",
+          "prefix": "ns2"
+        },
+        "type": "object",
+        "required": [
+          "finInstnId"
+        ],
+        "properties": {
+          "finInstnId": {
+            "$ref": "#/components/schemas/FinancialInstitutionIdentification8"
+          }
+        },
+        "description": "Financial institution servicing an account for the creditor."
+      },
+      "DbtrAgt": {
+        "xml": {
+          "name": "DbtrAgt",
+          "prefix": "ns2"
+        },
+        "type": "object",
+        "required": [
+          "finInstnId"
+        ],
+        "properties": {
+          "finInstnId": {
+            "xml": {
+              "name": "FinInstnId",
+              "prefix": "ns2"
+            },
+            "type": "object",
+            "required": [
+              "bicfi"
+            ],
+            "properties": {
+              "bicfi": {
+                "xml": {
+                  "name": "BICFI",
+                  "prefix": "ns2"
+                },
+                "enum": [
+                  "NATAAU33XXX"
+                ],
+                "type": "string",
+                "description": "Code allocated to a financial institution by the ISO 9362 Registration Authority as described in ISO 9362 \"Banking - Banking telecommunication messages - Business identifier code (BIC)\".\n\n  **NAB Fast Payment Usage:** Must be set to NAB's BIC (NATAAU33XXX)."
+              }
+            },
+            "description": "Unique and unambiguous identification of a financial institution, as assigned under an internationally recognised or proprietary identification scheme."
+          }
+        },
+        "description": "Financial institution servicing an account for the debtor."
+      },
+      "CdtrAcct": {
+        "xml": {
+          "name": "CdtrAcct",
+          "prefix": "ns2"
+        },
+        "type": "object",
+        "required": [
+          "id"
+        ],
+        "properties": {
+          "id": {
+            "$ref": "#/components/schemas/AccountIdentification4Choice"
+          }
+        },
+        "description": "Unambiguous identification of the account of the creditor to which a credit entry will be posted as a result of the payment transaction."
+      },
+      "DbtrAcct": {
+        "xml": {
+          "name": "DbtrAcct",
+          "prefix": "ns2"
+        },
+        "type": "object",
+        "required": [
+          "id"
+        ],
+        "properties": {
+          "id": {
+            "$ref": "#/components/schemas/AccountIdentification4Choice"
+          }
+        },
+        "description": "Unambiguous identification of the account of the debtor to which a debit entry will be made as a result of the transaction."
+      },
+      "ErrorDetails": {
+        "required": [
+          "issue"
+        ],
+        "properties": {
+          "field": {
+            "type": "string",
+            "description": "The field that caused the error. If the field is in the body, set this value to the JSON pointer to that field."
+          },
+          "issue": {
+            "type": "string",
+            "description": "The reason for the error."
+          },
+          "value": {
+            "type": "string",
+            "description": "The value of the field that caused the error."
+          },
+          "location": {
+            "type": "string",
+            "description": "The location of the field that caused the error, i.e. body"
+          }
+        }
+      },
+      "ErrorResponse": {
+        "xml": {
+          "name": "ErrorResponse"
+        },
+        "type": "object",
+        "required": [
+          "code",
+          "description",
+          "message"
+        ],
+        "properties": {
+          "code": {
+            "xml": {
+              "name": "Code"
+            },
+            "type": "string"
+          },
+          "uetr": {
+            "xml": {
+              "name": "Uetr"
+            },
+            "type": "string"
+          },
+          "message": {
+            "xml": {
+              "name": "Message"
+            },
+            "type": "string"
+          },
+          "description": {
+            "xml": {
+              "name": "Description"
+            },
+            "type": "string"
+          }
+        }
+      },
+      "GroupHeader48": {
+        "xml": {
+          "name": "GrpHdr",
+          "prefix": "ns2"
+        },
+        "type": "object",
+        "required": [
+          "creDtTm",
+          "initgPty",
+          "msgId",
+          "ctrlSum",
+          "nbOfTxs"
+        ],
+        "properties": {
+          "msgId": {
+            "xml": {
+              "name": "MsgId",
+              "prefix": "ns2"
+            },
+            "type": "string",
+            "example": "b531ff54d3db11ebb8bc0242ac130003",
+            "maxLength": 35,
+            "minLength": 1,
+            "description": "Point to point reference, as assigned by the instructing party, and\nsent to the next party in the chain to unambiguously identify the\nmessage.\n\nUsage: The instructing party has to make sure that\nMessageIdentification is unique per instructed party for a\npre-agreed period.\n\n**NAB Fast Payment Usage:** Unique value for a Point to Point reference\nfor the PAIN message to be created by Customer.  Value will be\nreturned in PAIN.002 Acknowledgement."
+          },
+          "creDtTm": {
+            "xml": {
+              "name": "CreDtTm",
+              "prefix": "ns2"
+            },
+            "type": "string",
+            "format": "date-time",
+            "example": "2021-06-23T09:46:12.000+10:00",
+            "description": "Date and time at which the message was created.  \n\n**NAB Fast Payment Usage:** Must be Victorian AEST time."
+          },
+          "ctrlSum": {
+            "xml": {
+              "name": "CtrlSum",
+              "prefix": "ns2"
+            },
+            "type": "number",
+            "example": "16.00",
+            "description": "Total of all individual amounts included in the message,\nirrespective of currencies.\n\n**NAB Fast Payment Usage:** Currency value with two decimal places. \nMust match value in CstmrCdtTrfInitn/PmtInf/CdtTrfTxInf/Amt/InstdAmt"
+          },
+          "nbOfTxs": {
+            "xml": {
+              "name": "NbOfTxs",
+              "prefix": "ns2"
+            },
+            "enum": [
+              1
+            ],
+            "type": "string",
+            "description": "Number of individual transactions contained in the message.  \n**NAB Fast Payment Usage:** Must be set to \"1\""
+          },
+          "initgPty": {
+            "$ref": "#/components/schemas/InitiatingParty"
+          }
+        },
+        "description": "Set of characteristics shared by all individual transactions included in\nthe message."
+      },
+      "GroupHeader52": {
+        "xml": {
+          "name": "GrpHdr",
+          "prefix": "ns2"
+        },
+        "type": "object",
+        "required": [
+          "creDtTm",
+          "initgPty",
+          "msgId"
+        ],
+        "properties": {
+          "msgId": {
+            "xml": {
+              "name": "MsgId",
+              "prefix": "ns2"
+            },
+            "type": "string",
+            "example": "b531ff54d3db11ebb8bc0242ac130003",
+            "maxLength": 35,
+            "minLength": 1,
+            "description": "Point to point reference, as assigned by the instructing party, and\nsent to the next party in the chain to unambiguously identify the\nmessage.\n\nUsage: The instructing party has to make sure that\nMessageIdentification is unique per instructed party for a\npre-agreed period.\n\n**NAB Fast Payment Usage:** Unique value for a Point to Point reference\nfor the PAIN message to be created by Customer.  Value will be\nreturned in PAIN.002 Acknowledgement."
+          },
+          "creDtTm": {
+            "xml": {
+              "name": "CreDtTm",
+              "prefix": "ns2"
+            },
+            "type": "string",
+            "format": "date-time",
+            "example": "2021-06-23T09:46:12.000+10:00",
+            "description": "Date and time at which the message was created.  \n\n**NAB Fast Payment Usage:** Must be Victorian AEST time."
+          },
+          "initgPty": {
+            "$ref": "#/components/schemas/InitiatingParty"
+          }
+        },
+        "description": "Set of characteristics shared by all individual transactions included in the status report message.        "
+      },
+      "Party11Choice": {
+        "xml": {
+          "name": "Id",
+          "prefix": "ns2"
+        },
+        "type": "object",
+        "required": [
+          "orgId"
+        ],
+        "properties": {
+          "orgId": {
+            "$ref": "#/components/schemas/OrganisationIdentification8"
+          }
+        },
+        "description": "Unique and unambiguous identification of a party."
+      },
+      "PostalAddress6": {
+        "xml": {
+          "name": "PstlAdr",
+          "prefix": "ns2"
+        },
+        "type": "object",
+        "example": {
+          "ns2:Ctry": "AU",
+          "ns2:AdrTp": "BIZZ",
+          "ns2:PstCd": 3008,
+          "ns2:TwnNm": "Docklands",
+          "ns2:AdrLine": "Level 16, 999 Bourke St",
+          "ns2:CtrySubDvsn": "VIC"
+        },
+        "required": [
+          "ctry",
+          "adrLine"
+        ],
+        "properties": {
+          "ctry": {
+            "xml": {
+              "name": "Ctry",
+              "prefix": "ns2"
+            },
+            "type": "string",
+            "pattern": "^[A-Z]{2,2}$",
+            "description": "Code to identify a country, a dependency, or another area of particular geopolitical interest, on the basis of country names obtained from the United Nations (ISO 3166, Alpha-2 code)."
+          },
+          "dept": {
+            "xml": {
+              "name": "Dept",
+              "prefix": "ns2"
+            },
+            "type": "string",
+            "maxLength": 70,
+            "minLength": 1,
+            "description": "Identification of a division of a large organisation or building."
+          },
+          "adrTp": {
+            "xml": {
+              "name": "AdrTp",
+              "prefix": "ns2"
+            },
+            "enum": [
+              "ADDR",
+              "PBOX",
+              "HOME",
+              "BIZZ",
+              "MLTO",
+              "DLVY"
+            ],
+            "type": "string",
+            "description": "Identifies the nature of the postal address.\n\n<table>\n<tr><th>Code</th><th>Name</th></tr>\n<tr><td>BIZZ</td><td>Business</td></tr>\n<tr><td>DLVY</td><td>Delivery To</td></tr>\n<tr><td>MLTO</td><td>Mail To</td></tr>\n<tr><td>PBOX</td><td>PO Box</td></tr>\n<tr><td>ADDR</td><td>Postal</td></tr>\n<tr><td>HOME</td><td>Residential</td></tr>\n</table>"
+          },
+          "pstCd": {
+            "xml": {
+              "name": "PstCd",
+              "prefix": "ns2"
+            },
+            "type": "string",
+            "maxLength": 16,
+            "minLength": 1,
+            "description": "Identifier consisting of a group of letters and/or numbers that is added to a postal address to assist the sorting of mail."
+          },
+          "twnNm": {
+            "xml": {
+              "name": "TwnNm",
+              "prefix": "ns2"
+            },
+            "type": "string",
+            "maxLength": 35,
+            "minLength": 1,
+            "description": "Name of a built-up area, with defined boundaries, and a local government."
+          },
+          "bldgNb": {
+            "xml": {
+              "name": "BldgNb",
+              "prefix": "ns2"
+            },
+            "type": "string",
+            "maxLength": 16,
+            "minLength": 1,
+            "description": "Number that identifies the position of a building on a street."
+          },
+          "strtNm": {
+            "xml": {
+              "name": "StrtNm",
+              "prefix": "ns2"
+            },
+            "type": "string",
+            "maxLength": 70,
+            "minLength": 1,
+            "description": "Name of a street or thoroughfare."
+          },
+          "adrLine": {
+            "xml": {
+              "name": "AdrLine",
+              "prefix": "ns2"
+            },
+            "type": "array",
+            "items": {
+              "xml": {
+                "name": "AdrLine",
+                "prefix": "ns2"
+              },
+              "type": "string"
+            },
+            "maxItems": 7,
+            "minItems": 1,
+            "description": "Information that locates and identifies a specific address, as defined by postal services, presented in free format text."
+          },
+          "subDept": {
+            "xml": {
+              "name": "SubDept",
+              "prefix": "ns2"
+            },
+            "type": "string",
+            "maxLength": 70,
+            "minLength": 1,
+            "description": "Identification of a sub-division of a large organisation or building."
+          },
+          "ctrySubDvsn": {
+            "xml": {
+              "name": "CtrySubDvsn",
+              "prefix": "ns2"
+            },
+            "type": "string",
+            "maxLength": 35,
+            "minLength": 1,
+            "description": "Identifies a subdivision of a country such as state, region, county."
+          }
+        },
+        "description": "Information that locates and identifies a specific address, as defined by postal services.\n\n**NAB Fast Payment Usage:** As part of production on-boarding, the Postal Address type and structure shall be confirmed by NAB."
+      },
+      "HTTPHeaderError": {
+        "type": "object",
+        "properties": {
+          "path": {
+            "type": "string",
+            "description": "The path of the API operation for the error."
+          },
+          "error": {
+            "type": "string",
+            "description": "HTTP status code name of the error, e.g. 'Not Acceptable', 'Unsupported Media Type'"
+          },
+          "status": {
+            "type": "number",
+            "description": "HTTP status code of the error, e.g. 406, 415"
+          },
+          "message": {
+            "type": "string",
+            "description": "Error message"
+          },
+          "timestamp": {
+            "type": "string",
+            "format": "date-time",
+            "description": "Timestamp of when the error occurred."
+          }
+        },
+        "description": "Error details in case of an invalid HTTP Header parameter."
+      },
+      "InitiatingParty": {
+        "xml": {
+          "name": "InitgPty",
+          "prefix": "ns2"
+        },
+        "type": "object",
+        "required": [
+          "id"
+        ],
+        "properties": {
+          "id": {
+            "$ref": "#/components/schemas/Party11Choice"
+          }
+        },
+        "description": "Party that initiates the payment.\n\nUsage: This can either be the debtor or the party that initiates the credit transfer on behalf of the debtor."
+      },
+      "AmountType4Choice": {
+        "xml": {
+          "name": "Amt",
+          "prefix": "ns2"
+        },
+        "type": "object",
+        "required": [
+          "instdAmt"
+        ],
+        "properties": {
+          "instdAmt": {
+            "$ref": "#/components/schemas/ActiveOrHistoricCurrencyAndAmount"
+          }
+        },
+        "description": "Amount of money to be moved between the debtor and creditor, before deduction of charges, expressed in the currency as ordered by the initiating party."
+      },
+      "ServiceLevel8Choice": {
+        "xml": {
+          "name": "SvcLvl",
+          "prefix": "ns2"
+        },
+        "type": "object",
+        "required": [
+          "prtry"
+        ],
+        "properties": {
+          "prtry": {
+            "xml": {
+              "name": "Prtry",
+              "prefix": "ns2"
+            },
+            "type": "string",
+            "example": "SCT.04",
+            "description": "Specifies a pre-agreed service or level of service between the parties, as a proprietary code.\n\n**NAB Fast Payment Usage:** Currently the NAB Fast Payment service utilises the NPP Single Credit Transfer (SCT) service overlay.  The payment eligibility API operation may be performed prior to submitting the payment to check both NAB and the creditor/payee financial institution support a common version of the SCT overlay and use the result to populate this field.  \n\nIf the payment eligibility API operation is not performed, then the client should set this field to the latest SCT version in use by NAB (currently SCT.04).  \nThe NAB Fast Payment processor will also perform the eligibility check as part of processing the submitted payment and adjust this field if necessary."
+          }
+        },
+        "description": "Agreement under which or rules under which the transaction should be processed."
+      },
+      "StatusReason6Choice": {
+        "xml": {
+          "name": "Rsn",
+          "prefix": "ns2"
+        },
+        "type": "object",
+        "properties": {
+          "cd": {
+            "xml": {
+              "name": "Cd",
+              "prefix": "ns2"
+            },
+            "type": "string",
+            "example": "DU05",
+            "maxLength": 4,
+            "minLength": 1,
+            "description": "Reason for the status, as published in an external reason code list.\n\n**NAB Fast Payment Usage:** Only provided in the case of the transaction being rejected (i.e. TxStsRefer = RJCT).  Refer to the ISO 20022 External Code Sets (16-StatusReason Workbook) for the list of reason codes.",
+            "externalDocs": {
+              "url": "https://www.iso20022.org/catalogue-messages/additional-content-messages/external-code-sets",
+              "description": "ISO 20022 External Code Sets"
+            }
+          }
+        },
+        "description": "Specifies the reason for the status report."
+      },
+      "GatewayErrorResponse": {
+        "type": "object",
+        "properties": {
+          "error": {
+            "type": "string",
+            "example": "invalid_token",
+            "description": "Error code"
+          },
+          "error_description": {
+            "type": "string",
+            "example": "The access token is invalid or has expired",
+            "description": "Error description.  Human-readable ASCII text providing additional information, used to assist the client developer in understanding the error that occurred."
+          }
+        }
+      },
+      "OriginalGroupHeader1": {
+        "xml": {
+          "name": "OrgnlGrpInfAndSts",
+          "prefix": "ns2"
+        },
+        "type": "object",
+        "required": [
+          "orgnlMsgId",
+          "orgnlMsgNmId"
+        ],
+        "properties": {
+          "orgnlMsgId": {
+            "xml": {
+              "name": "OrgnlMsgId",
+              "prefix": "ns2"
+            },
+            "type": "string",
+            "example": "b531ff54d3db11ebb8bc0242ac130003",
+            "maxLength": 35,
+            "minLength": 1,
+            "description": "Point to point reference, as assigned by the original instructing party, to unambiguously identify the original message."
+          },
+          "orgnlCreDtTm": {
+            "xml": {
+              "name": "OrgnlCreDtTm",
+              "prefix": "ns2"
+            },
+            "type": "string",
+            "format": "date-time",
+            "example": "2021-06-23T09:46:12.000+10:00",
+            "description": "Date and time at which the original message was created."
+          },
+          "orgnlCtrlSum": {
+            "xml": {
+              "name": "OrgnlCtrlSum",
+              "prefix": "ns2"
+            },
+            "type": "number",
+            "example": "16.00",
+            "description": "Total of all individual amounts included in the original message, irrespective of currencies."
+          },
+          "orgnlMsgNmId": {
+            "xml": {
+              "name": "OrgnlMsgNmId",
+              "prefix": "ns2"
+            },
+            "enum": [
+              "PAIN.002.001.06"
+            ],
+            "type": "string",
+            "maxLength": 35,
+            "minLength": 1,
+            "description": "Specifies the original message name identifier to which the message refers."
+          },
+          "orgnlNbOfTxs": {
+            "xml": {
+              "name": "OrgnlNbOfTxs",
+              "prefix": "ns2"
+            },
+            "enum": [
+              1
+            ],
+            "type": "string",
+            "description": "Number of individual transactions contained in the original message.\n\n**NAB Fast Payment Usage:** Set to \"1\" as per original message."
+          }
+        },
+        "description": "Original group information concerning the group of transactions, to which the status report message refers to."
+      },
+      "PaymentInstruction16": {
+        "xml": {
+          "name": "PmtInf",
+          "prefix": "ns2"
+        },
+        "type": "object",
+        "required": [
+          "cdtTrfTxInf",
+          "dbtr",
+          "dbtrAcct",
+          "dbtrAgt",
+          "pmtInfId",
+          "pmtMtd",
+          "reqdExctnDt"
+        ],
+        "properties": {
+          "dbtr": {
+            "$ref": "#/components/schemas/DbtrPartyIdentification43"
+          },
+          "pmtMtd": {
+            "xml": {
+              "name": "PmtMtd",
+              "prefix": "ns2"
+            },
+            "enum": [
+              "TRF"
+            ],
+            "type": "string",
+            "description": "Specifies the means of payment that will be used to move the amount of money.\n\n**NAB Fast Payment Usage:** Must be set to TRF (Credit Transfer)."
+          },
+          "dbtrAgt": {
+            "$ref": "#/components/schemas/DbtrAgt"
+          },
+          "dbtrAcct": {
+            "$ref": "#/components/schemas/DbtrAcct"
+          },
+          "pmtInfId": {
+            "xml": {
+              "name": "PmtInfId",
+              "prefix": "ns2"
+            },
+            "type": "string",
+            "example": "b531ff54d3db11ebb8bc0242ac130003",
+            "maxLength": 35,
+            "minLength": 1,
+            "description": "Unique identification, as assigned by a sending party, to unambiguously identify the payment information group within the message.\n\n**NAB Fast Payment Usage:** Customer to supply a unique value for identifying a payment group (ISO requirements).  As NAB does not utilise this Group Payment ID, NAB recommends replicating the Payment Instruction ID in this field (as per CstmrCdtTrfInitn/PmtInf/CdtTrfTxInf/PmtId/InstrId). "
+          },
+          "cdtTrfTxInf": {
+            "xml": {
+              "name": "CdtTrfTxInf",
+              "prefix": "ns2"
+            },
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/CreditTransferTransaction20"
+            },
+            "minItems": 1
+          },
+          "reqdExctnDt": {
+            "xml": {
+              "name": "ReqdExctnDt",
+              "prefix": "ns2"
+            },
+            "type": "string",
+            "format": "date",
+            "example": "2021-06-23+10:00",
+            "description": "Date at which the initiating party requests the clearing agent to process the payment.\n\nUsage: This is the date on which the debtor's account is to be debited. If payment by cheque, the date when the cheque must be generated by the bank.\n\n**NAB Fast Payment Usage:** Shall be same as Message Creation Date. If execution date is in future, NAB will reject payment message If Execution date is Past Date, NAB will process the message with current Date as execution date."
+          }
+        },
+        "description": "Set of characteristics that applies to the debit side of the payment transactions included in the credit transfer initiation."
+      },
+      "PaymentTransaction57": {
+        "xml": {
+          "name": "TxInfAndSts",
+          "prefix": "ns2"
+        },
+        "type": "object",
+        "properties": {
+          "txSts": {
+            "xml": {
+              "name": "TxSts",
+              "prefix": "ns2"
+            },
+            "enum": [
+              "ACTC",
+              "RJCT"
+            ],
+            "type": "string",
+            "description": "Specifies the status of a transaction, in a coded form.\n\n**NAB Fast Payment Usage:** <table> <tr><th>Code</th><th>Name</th><th>Description</th></tr>\n  <tr><td>ACTC</td><td>Accepted Technical Validation</td><td>The\n    payment request was accepted at NAB and will be processed.</td></tr>\n  <tr><td>RJCT</td><td>Rejected</td><td>The payment request was\n    rejected at NAB. The reason code for rejection will be provided in\n    the StsRsnInf/Rsn element and the reason description provided in the\n    StsRsnInf/AddtlInf element.</td>\n  </tr>\n</table>"
+          },
+          "stsRsnInf": {
+            "xml": {
+              "name": "StsRsnInf",
+              "prefix": "ns2"
+            },
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/StatusReasonInformation9"
+            }
+          },
+          "orgnlTxRef": {
+            "$ref": "#/components/schemas/OriginalTransactionReference20"
+          },
+          "orgnlInstrId": {
+            "xml": {
+              "name": "OrgnlInstrId",
+              "prefix": "ns2"
+            },
+            "type": "string",
+            "example": "a23657d04d7d11ec81d30242ac130003",
+            "maxLength": 35,
+            "minLength": 1,
+            "description": "Unique identification, as assigned by the original instructing party for the original instructed party, to unambiguously identify the original instruction."
+          },
+          "orgnlEndToEndId": {
+            "xml": {
+              "name": "OrgnlEndToEndId",
+              "prefix": "ns2"
+            },
+            "type": "string",
+            "example": "b531ff54d3db11ebb8bc0242ac130003",
+            "maxLength": 35,
+            "minLength": 1,
+            "description": "Unique identification, as assigned by the original initiating party, to unambiguously identify the original transaction."
+          }
+        },
+        "description": "Provides information on the original transactions to which the status report message refers."
+      },
+      "PaymentStatusNotFound": {
+        "type": "object",
+        "properties": {
+          "message": {
+            "type": "string",
+            "example": "Not Found",
+            "description": "Not found error message"
+          },
+          "timestamp": {
+            "type": "string",
+            "format": "date-time",
+            "example": "2021-07-21T12:09:47.995Z",
+            "description": "Timestamp of when the error occurred."
+          },
+          "description": {
+            "type": "string",
+            "example": "NOT FOUND",
+            "description": "Not found error description"
+          }
+        },
+        "description": "Error details in case a payment status was not found."
+      },
+      "PaymentStatusResponse": {
+        "type": "object",
+        "example": {
+          "uetr": "00f019e1-a781-46f0-ab4c-9eb93065caf8",
+          "status": "ACSC",
+          "createTs": "2020-07-21T04:08:23.680Z",
+          "instructionId": "24beefc613db44a191b236710cef0bf2"
+        },
+        "required": [
+          "uetr",
+          "instructionId",
+          "status",
+          "createTs"
+        ],
+        "properties": {
+          "uetr": {
+            "type": "string",
+            "example": "722fbfd6-46fc-4e46-a9a7-a98492adbc35",
+            "description": "A Unique End-to-end Transaction Reference"
+          },
+          "status": {
+            "type": "string",
+            "example": "ACSC",
+            "description": "Specifies the status of a transaction, in a coded form.\n\n**NAB Fast Payment Usage:** <table> <tr><th>Code</th><th>Name</th><th>Description</th></tr>\n  <tr><td>ACTC</td><td>Accepted Technical Validation</td><td>The\n    payment request was accepted at NAB and will be processed.</td></tr>\n  <tr><td>RJCT</td><td>Rejected</td><td>The payment request was\n    rejected at NAB. The reason code for rejection will be provided in\n    the StsRsnInf/Rsn element and the reason description provided in the\n    StsRsnInf/AddtlInf element.</td>\n  <tr><td>ACCP</td><td>Accepted Customer Profile</td><td>Payment Processed by NAB (Client Account Debited)</td>\n  <tr><td>ACSP</td><td>Accepted Settlement In Process</td><td>Payment Sent to Payee Bank (Clearing done).</td>\n  <tr><td>ACSC</td><td>Accepted Settlement Completed</td><td>Payment Processed by Payee Bank. (Settlement done)</td>\n  </tr>\n</table>"
+          },
+          "createTs": {
+            "type": "string",
+            "example": "2020-07-21T04:08:23.680Z",
+            "description": "Date and time at which the payment was created."
+          },
+          "errorResponse": {
+            "$ref": "#/components/schemas/PaymentStatusErrorResponse"
+          },
+          "instructionId": {
+            "type": "string",
+            "example": "24beefc613db44a191b236710cef0bf2",
+            "description": "Unique identification as assigned by an instructing party for an instructed party to unambiguously identify the instruction.\n\nUsage: The instruction identification is a point to point reference that can be used between the instructing party and the instructed party to refer to the individual instruction. It can be included in several messages related to the instruction.\n\n**NAB Fast Payment Usage:** Customer must supply a unique payment ID.  This ID must relate to a unique payment submission.  Duplicate ID's in distinct payment requests would result in a payment rejection.  "
+          }
+        }
+      },
+      "PaymentIdentification1": {
+        "xml": {
+          "name": "PmtId",
+          "prefix": "ns2"
+        },
+        "type": "object",
+        "required": [
+          "instrId",
+          "endToEndId"
+        ],
+        "properties": {
+          "instrId": {
+            "xml": {
+              "name": "InstrId",
+              "prefix": "ns2"
+            },
+            "type": "string",
+            "example": "eec88cf24a444e41aa0bf9706c9e1de1",
+            "maxLength": 35,
+            "minLength": 1,
+            "description": "Unique identification as assigned by an instructing party for an instructed party to unambiguously identify the instruction.\n\nUsage: The instruction identification is a point to point reference that can be used between the instructing party and the instructed party to refer to the individual instruction. It can be included in several messages related to the instruction.\n\n**NAB Fast Payment Usage:** Customer must supply a unique payment ID.  This ID must relate to a unique payment submission.  Duplicate ID's in distinct payment requests would result in a payment rejection."
+          },
+          "endToEndId": {
+            "xml": {
+              "name": "EndToEndId",
+              "prefix": "ns2"
+            },
+            "type": "string",
+            "example": "b531ff54d3db11ebb8bc0242ac130003",
+            "maxLength": 35,
+            "minLength": 1,
+            "description": "Unique identification assigned by the initiating party to unambiguously identify the transaction. This identification is passed on, unchanged, throughout the entire end-to-end chain.\n\nUsage: The end-to-end identification can be used for reconciliation or to link tasks relating to the transaction. It can be included in several messages related to the transaction.\n\n**NAB Fast Payment Usage:** Mandatory Reference that will be passed through to debtor.  Note: NAB may truncate to (text, 18) when presenting in payment details.  If Client is unable to provide, the value should be set to \"NOT PROVIDED\"."
+          }
+        },
+        "description": "Set of elements used to reference a payment instruction."
+      },
+      "PaymentEligibilityError": {
+        "type": "object",
+        "required": [
+          "errorId",
+          "message"
+        ],
+        "properties": {
+          "errorId": {
+            "type": "string",
+            "description": "Human readable, unique name of the error"
+          },
+          "message": {
+            "type": "string",
+            "description": "Message describing the error."
+          },
+          "errorDetails": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/ErrorDetails"
+            },
+            "description": "Additional details for the error. Mandatory for client side 4xx errors."
+          },
+          "informationLink": {
+            "type": "string",
+            "description": "A link to more information"
+          }
+        }
+      },
+      "RemittanceInformation10": {
+        "xml": {
+          "name": "RmtInf",
+          "prefix": "ns2"
+        },
+        "type": "object",
+        "properties": {
+          "ustrd": {
+            "xml": {
+              "name": "Ustrd",
+              "prefix": "ns2"
+            },
+            "type": "array",
+            "items": {
+              "xml": {
+                "name": "Ustrd",
+                "prefix": "ns2"
+              },
+              "type": "string",
+              "example": "Bills",
+              "maxLength": 140,
+              "minLength": 1
+            },
+            "maxItems": 2
+          }
+        },
+        "description": "Information supplied to enable the matching/reconciliation of an entry with the items that the payment is intended to settle, such as commercial invoices in an accounts' receivable system, in an unstructured form.\n\n**NAB Fast Payment Usage:** Can be used for the Extended Remittance Information (ERI).  Max of two <Ustrd> can be supplied for ERI - these values will be concatenated into a single 280 presentation."
+      },
+      "AccountSchemeName1Choice": {
+        "xml": {
+          "name": "SchmeNm",
+          "prefix": "ns2"
+        },
+        "type": "object",
+        "example": {
+          "ns2:Cd": "BBAN"
+        },
+        "properties": {
+          "cd": {
+            "xml": {
+              "name": "Cd",
+              "prefix": "ns2"
+            },
+            "enum": [
+              "BBAN"
+            ],
+            "type": "string",
+            "description": "Name of the identification scheme, in a coded form as published in an external list."
+          },
+          "prtry": {
+            "xml": {
+              "name": "Prtry",
+              "prefix": "ns2"
+            },
+            "type": "string",
+            "description": "Name of the identification scheme, in a free text form."
+          }
+        },
+        "description": "Name of the identification scheme."
+      },
+      "PaymentInitiationRequest": {
+        "xml": {
+          "name": "Document",
+          "prefix": "ns2",
+          "namespace": "urn:iso:std:iso:20022:tech:xsd:pain.001.001.06",
+          "xsd": "pain.xsd"
+        },
+        "type": "object",
+        "required": [
+          "cstmrCdtTrfInitn"
+        ],
+        "properties": {
+          "cstmrCdtTrfInitn": {
+            "$ref": "#/components/schemas/CustomerCreditTransferInitiationV06"
+          }
+        }
+      },
+      "PaymentTypeInformation19": {
+        "xml": {
+          "name": "PmtTpInf",
+          "prefix": "ns2"
+        },
+        "type": "object",
+        "properties": {
+          "svcLvl": {
+            "$ref": "#/components/schemas/ServiceLevel8Choice"
+          },
+          "instrPrty": {
+            "xml": {
+              "name": "InstrPrty",
+              "prefix": "ns2"
+            },
+            "enum": [
+              "HIGH"
+            ],
+            "type": "string",
+            "description": "Indicator of the urgency or order of importance that the instructing party would like the instructed party to apply to the processing of the instruction.\n\n**NAB Fast Payment Usage:** Always set to HIGH."
+          }
+        },
+        "description": "Set of elements used to further specify the type of transaction."
+      },
+      "StatusReasonInformation9": {
+        "xml": {
+          "name": "StsRsnInf",
+          "prefix": "ns2"
+        },
+        "type": "object",
+        "properties": {
+          "rsn": {
+            "$ref": "#/components/schemas/StatusReason6Choice"
+          },
+          "addtlInf": {
+            "xml": {
+              "name": "AddtlInf"
+            },
+            "type": "array",
+            "items": {
+              "xml": {
+                "name": "AddtlInf",
+                "prefix": "ns2"
+              },
+              "type": "string",
+              "example": "UETR/4e2d9176-8e0f-4aae-9cce-88306e507dcf",
+              "maxLength": 105,
+              "minLength": 1,
+              "description": "Further details on the status reason.\n\nUsage: Additional information can be used for several purposes such as the reporting of repaired information.\n\n**NAB Fast Payment Usage:** Occurrence 1 of this field will show the UETR value generated by NAB.  UETR value provided in response is used for Payment Status Inquiry.  \n\nIn the case of a rejected transaction (i.e. TxSts = RJCT), occurrence 2 will provide the reason description, e.g. 'Instruction ID is not unique', for the associated Reason Code, e.g. DU05  "
+            }
+          }
+        },
+        "description": "Provides detailed information on the status reason."
+      },
+      "CdtrPartyIdentification43": {
+        "xml": {
+          "name": "Cdtr",
+          "prefix": "ns2"
+        },
+        "type": "object",
+        "required": [
+          "nm"
+        ],
+        "properties": {
+          "nm": {
+            "xml": {
+              "name": "Nm",
+              "prefix": "ns2"
+            },
+            "type": "string",
+            "example": "Sandbox Example Business",
+            "maxLength": 140,
+            "minLength": 1,
+            "description": "Name by which a party is known and which is usually used to identify that party.\n\n**NAB Fast Payment Usage:** Creditor Name to be supplied by Customer.  \n\nNOTE: NAB may truncate value (text, 35) when presenting in payment details."
+          }
+        }
+      },
+      "DbtrPartyIdentification43": {
+        "xml": {
+          "name": "Dbtr",
+          "prefix": "ns2"
+        },
+        "type": "object",
+        "required": [
+          "nm",
+          "pstlAdr"
+        ],
+        "properties": {
+          "nm": {
+            "xml": {
+              "name": "Nm",
+              "prefix": "ns2"
+            },
+            "type": "string",
+            "example": "Sandbox Example Client",
+            "maxLength": 140,
+            "minLength": 1,
+            "description": "Name by which a party is known and which is usually used to identify that party.\n\n**NAB Fast Payment Usage:** Debtor Name to be supplied by Customer. Note: NAB may truncate value (text, 35) when presenting in payment details.  This will get populated in Creditor Account statement."
+          },
+          "pstlAdr": {
+            "$ref": "#/components/schemas/PostalAddress6"
+          }
+        },
+        "description": "Party that owes an amount of money to the (ultimate) creditor."
+      },
+      "PaymentEligibilityRequest": {
+        "type": "object",
+        "required": [
+          "function",
+          "fromIdentifier",
+          "toIdentifier",
+          "paymentMethod"
+        ],
+        "properties": {
+          "function": {
+            "enum": [
+              "E"
+            ],
+            "type": "string",
+            "description": "An identifier of the type of function to be performed.  Valid values are:\n<table>\n  <tr><th>Code</th><th>Description</th></tr>\n  <tr><td>E</td><td>Full eligibility check</td></tr>\n</table>"
+          },
+          "toIdentifier": {
+            "type": "object",
+            "required": [
+              "toBSB",
+              "toAccount",
+              "toSchemeName"
+            ],
+            "properties": {
+              "toBSB": {
+                "type": "string",
+                "example": "732231",
+                "pattern": "^[0-9]{6}$",
+                "maxLength": 6,
+                "minLength": 6,
+                "description": "The creditor account Bank State Branch (BSB).  A six-digit number that is used to identify a bank code and its associated branch in Australia."
+              },
+              "toAccount": {
+                "type": "string",
+                "example": "987654321",
+                "maxLength": 10,
+                "minLength": 9,
+                "description": "The creditor account number."
+              },
+              "toSchemeName": {
+                "enum": [
+                  "BBAN"
+                ],
+                "type": "string",
+                "description": "Name of the creditor account identification scheme, in a coded form as published in an external list. Must be set to BBAN (Basic Bank Account Number)."
+              }
+            },
+            "description": "Identification of the account of the creditor to which a credit entry will be posted as a result of the payment transaction.\n\nMust be provided using the BBAN (Basic Bank Account Number) identification scheme and consist of a domestic Bank State Branch (BSB) and Account Number.  International Bank Account Number (IBAN) identification and Issuer Identification Number ('AIIN') schemes are not supported.  "
+          },
+          "paymentMethod": {
+            "enum": [
+              "NPP"
+            ],
+            "type": "string",
+            "description": "Identifier of the type of payment method.   List of values: <table>\n  <tr><th>Code</th><th>Description</th></tr>\n  <tr><td>NPP</td><td>New Payments Platform (NPP) payment.</td></tr>\n</table>"
+          },
+          "fromIdentifier": {
+            "type": "object",
+            "required": [
+              "fromBSB",
+              "fromAccount",
+              "fromSchemeName"
+            ],
+            "properties": {
+              "fromBSB": {
+                "type": "string",
+                "example": "085116",
+                "pattern": "^[0-9]{6}$",
+                "maxLength": 6,
+                "minLength": 6,
+                "description": "The debtor account Bank State Branch (BSB).  A six-digit number that is used to identify a bank code and its associated branch in Australia."
+              },
+              "fromAccount": {
+                "type": "string",
+                "example": "123456789",
+                "maxLength": 10,
+                "minLength": 9,
+                "description": "The debtor account number.  Enter account number up to 9 digits.  Where account is less than 9 digits, provide leading zeros (i.e. 012345678)."
+              },
+              "fromSchemeName": {
+                "enum": [
+                  "BBAN"
+                ],
+                "type": "string",
+                "maxLength": 4,
+                "minLength": 4,
+                "description": "Name of the creditor account identification scheme, in a coded form as published in an external list. Must be set to BBAN (Basic Bank Account Number)."
+              }
+            },
+            "description": "Identification of the account of the debtor to which a debit entry will be made as a result of the payment transaction.\n\nMust be provided using the BBAN (Basic Bank Account Number) identification scheme and consist of a domestic Bank State Branch (BSB) and Account Number.  International Bank Account Number (IBAN) identification and Issuer Identification Number ('AIIN') schemes are not supported.  "
+          }
+        },
+        "description": "Contains the details of the payment eligibility request."
+      },
+      "PaymentInitiationResponse": {
+        "xml": {
+          "name": "Document",
+          "prefix": "ns2",
+          "namespace": "urn:iso:std:iso:20022:tech:xsd:pain.002.001.06"
+        },
+        "type": "object",
+        "required": [
+          "cstmrPmtStsRpt"
+        ],
+        "properties": {
+          "cstmrPmtStsRpt": {
+            "$ref": "#/components/schemas/CustomerPaymentStatusReportV06"
+          }
+        }
+      },
+      "PaymentEligibilityResponse": {
+        "type": "object",
+        "properties": {
+          "toEligibilityList": {
+            "type": "array",
+            "items": {
+              "properties": {
+                "toService": {
+                  "type": "string",
+                  "example": "SCT.04",
+                  "maxLength": 20,
+                  "minLength": 3,
+                  "description": "The identifier of eligible service"
+                },
+                "toFlowControl": {
+                  "enum": [
+                    "AVAILABLE",
+                    "UNAVAILABLE",
+                    "UNKNOWN"
+                  ],
+                  "type": "string",
+                  "description": "Identifier of availability to process a payment for a specified payment method for the To account"
+                }
+              }
+            }
+          },
+          "fromEligibilityList": {
+            "type": "array",
+            "items": {
+              "properties": {
+                "fromService": {
+                  "type": "string",
+                  "example": "SCT.04",
+                  "maxLength": 20,
+                  "minLength": 3,
+                  "description": "The identifier of eligible service"
+                },
+                "nabFlowControl": {
+                  "enum": [
+                    "AVAILABLE",
+                    "UNAVAILABLE"
+                  ],
+                  "type": "string",
+                  "example": "AVAILABLE",
+                  "description": "Identifier of availability of NAB to process a payment for a specified payment method."
+                },
+                "fromFlowControl": {
+                  "enum": [
+                    "UNKNOWN"
+                  ],
+                  "type": "string",
+                  "description": "Identifier of availability to process a payment for a specified payment method for the from account"
+                }
+              }
+            }
+          },
+          "additionalInformation": {
+            "type": "object",
+            "properties": {
+              "futureDated": {
+                "enum": [
+                  "FUTURE",
+                  "IMMEDIATE",
+                  "NONE"
+                ],
+                "type": "string",
+                "example": "IMMEDIATE",
+                "description": "identifier of whether payment method must be initiated immediately or can be future dated."
+              }
+            }
+          }
+        },
+        "description": "Contains the details of the payment eligibility response."
+      },
+      "PaymentStatusErrorResponse": {
+        "type": "object",
+        "required": [
+          "code",
+          "message"
+        ],
+        "properties": {
+          "code": {
+            "type": "string",
+            "maxLength": 4,
+            "minLength": 1,
+            "description": "Code for the status, as published in an external reason code list.\n\n**NAB Fast Payment Usage:** Only provided in the case of the transaction being rejected (i.e. status = RJCT).  Refer to the ISO 20022 External Code Sets (16-StatusReason Workbook) for the list of reason codes.",
+            "externalDocs": {
+              "url": "https://www.iso20022.org/catalogue-messages/additional-content-messages/external-code-sets",
+              "description": "ISO 20022 External Code Sets"
+            }
+          },
+          "message": {
+            "type": "string",
+            "description": "Associated error description for the error code."
+          }
+        }
+      },
+      "CreditTransferTransaction20": {
+        "xml": {
+          "name": "CdtTrfTxInf",
+          "prefix": "ns2"
+        },
+        "type": "object",
+        "required": [
+          "amt",
+          "cdtr",
+          "pmtId",
+          "rmtInf",
+          "cdtrAgt",
+          "cdtrAcct",
+          "pmtTpInf",
+          "instrForDbtrAgt"
+        ],
+        "properties": {
+          "amt": {
+            "$ref": "#/components/schemas/AmountType4Choice"
+          },
+          "cdtr": {
+            "$ref": "#/components/schemas/CdtrPartyIdentification43"
+          },
+          "pmtId": {
+            "$ref": "#/components/schemas/PaymentIdentification1"
+          },
+          "rmtInf": {
+            "$ref": "#/components/schemas/RemittanceInformation10"
+          },
+          "cdtrAgt": {
+            "$ref": "#/components/schemas/CdtrAgt"
+          },
+          "cdtrAcct": {
+            "$ref": "#/components/schemas/CdtrAcct"
+          },
+          "pmtTpInf": {
+            "$ref": "#/components/schemas/PaymentTypeInformation19"
+          },
+          "instrForDbtrAgt": {
+            "xml": {
+              "name": "InstrForDbtrAgt",
+              "prefix": "ns2"
+            },
+            "type": "string",
+            "example": "b531ff54d3db11ebb8bc0242ac130003",
+            "maxLength": 35,
+            "minLength": 1,
+            "description": "Further information related to the processing of the payment instruction, that may need to be acted upon by the debtor agent, depending on agreement between debtor and the debtor agent.\n\n**NAB Fast Payment Usage:** Payer short description field. Set to the End to End Identification field value (/Document/CstmrCdtTrfInitn/PmtInf/CdtTrfTxInf/PmtId/EndToEndId).\n"
+          }
+        },
+        "description": "Provides information on the individual transaction(s) included in the message."
+      },
+      "OrganisationIdentification8": {
+        "xml": {
+          "name": "OrgId",
+          "prefix": "ns2"
+        },
+        "type": "object",
+        "required": [
+          "other"
+        ],
+        "properties": {
+          "othr": {
+            "xml": {
+              "name": "Othr",
+              "prefix": "ns2"
+            },
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/GenericOrganisationIdentification1"
+            }
+          }
+        },
+        "description": "Unique and unambiguous way to identify an organisation."
+      },
+      "AccountIdentification4Choice": {
+        "xml": {
+          "name": "Id",
+          "prefix": "ns2"
+        },
+        "type": "object",
+        "required": [
+          "othr"
+        ],
+        "properties": {
+          "othr": {
+            "$ref": "#/components/schemas/GenericAccountIdentification1"
+          }
+        },
+        "description": "Unique and unambiguous identification for the account between the account owner and the account servicer.\n\n**NAB Fast Payment Usage:** Must be provided using the BBAN (Basic Bank Account Number) identification scheme and consist of a domestic BSB & Account Number (BSB + Account Number).  International Bank Account Number (IBAN) identification scheme is not supported.  "
+      },
+      "OriginalPaymentInstruction12": {
+        "xml": {
+          "name": "OrgnlPmtInfAndSts",
+          "prefix": "ns2"
+        },
+        "type": "object",
+        "required": [
+          "orgnlPmtInfId"
+        ],
+        "properties": {
+          "txInfAndSts": {
+            "xml": {
+              "name": "TxInfAndSts",
+              "prefix": "ns2"
+            },
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/PaymentTransaction57"
+            }
+          },
+          "orgnlPmtInfId": {
+            "xml": {
+              "name": "OrgnlPmtInfId",
+              "prefix": "ns2"
+            },
+            "type": "string",
+            "example": "83aac66b262a4616936290095feb8c34",
+            "maxLength": 35,
+            "minLength": 1,
+            "description": "Unique identification, as assigned by the original sending party, to unambiguously identify the original payment information group."
+          }
+        },
+        "description": "Information concerning the original payment information, to which the status report message refers."
+      },
+      "GenericAccountIdentification1": {
+        "xml": {
+          "name": "Othr",
+          "prefix": "ns2"
+        },
+        "type": "object",
+        "required": [
+          "id",
+          "issr"
+        ],
+        "properties": {
+          "id": {
+            "xml": {
+              "name": "Id",
+              "prefix": "ns2"
+            },
+            "type": "string",
+            "example": "085116123456789",
+            "maxLength": 34,
+            "minLength": 1,
+            "description": "Identification assigned by an institution."
+          },
+          "issr": {
+            "xml": {
+              "name": "Issr",
+              "prefix": "ns2"
+            },
+            "type": "string",
+            "example": "085116",
+            "maxLength": 35,
+            "minLength": 1,
+            "description": "Entity that assigns the identification.\n\n**NAB Fast Payment Usage:** Must consist of the BSB (i.e. first 6 digits) of the Id."
+          },
+          "schmeNm": {
+            "$ref": "#/components/schemas/AccountSchemeName1Choice"
+          }
+        },
+        "description": "Unique identification of an account, as assigned by the account servicer, using the BBAN identification scheme."
+      },
+      "CustomerPaymentStatusReportV06": {
+        "xml": {
+          "name": "CstmrPmtStsRpt",
+          "prefix": "ns2"
+        },
+        "type": "object",
+        "title": "Customer Payment Status Report V06 (pain.002.001.06)",
+        "required": [
+          "grpHdr",
+          "orgnlGrpInfAndSts"
+        ],
+        "properties": {
+          "grpHdr": {
+            "$ref": "#/components/schemas/GroupHeader52"
+          },
+          "orgnlGrpInfAndSts": {
+            "$ref": "#/components/schemas/OriginalGroupHeader1"
+          },
+          "orgnlPmtInfAndSts": {
+            "xml": {
+              "name": "OrgnlPmtInfAndSts"
+            },
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/OriginalPaymentInstruction12"
+            }
+          }
+        },
+        "description": "The CustomerPaymentStatusReport message is sent by an instructed agent to the previous party in the payment chain. It is used to inform this party about the positive or negative status of an instruction (either single or file). It is also used to report on a pending instruction.\n\nUsage: The CustomerPaymentStatusReport message is exchanged between an agent and a non-financial institution customer to provide status information on instructions previously sent. Its usage will always be governed by a bilateral agreement between the agent and the non-financial institution customer.  The CustomerPaymentStatusReport message can be used to provide information about the status (e.g. rejection, acceptance) of the initiation of a credit transfer, a direct debit, as well as on the initiation of other customer instructions. The CustomerPaymentStatusReport message refers to the original instruction(s) by means of references only or by means of references and a set of elements from the original instruction.  The CustomerPaymentStatusReport message can be used in domestic and cross-border scenarios.\n\n**NAB Fast Payment Usage:**  The API schema and examples provided in this specification describes the minimum set of Customer Payment Status Report (pain.002) elements expected to be returned to the client application (based on the minimum set of Customer Credit Transfer Initiation (pain.001) elements expected to be passed in the input request).  \n\nThe NAB Fast Payment API will still accept messages with any additional Customer Credit Transfer Initiation elements as defined in the full [pain.001.001.06.xsd](https://www.iso20022.org/message/14331/download) and pass those elements through to the creditor financial institution and return them in the Customer Payment Status Report response message.\n\nThe client application should implement the full [pain.002.001.06.xsd](https://www.iso20022.org/message/14376/download) to receive a valid response and use the schema provided in this API specification for documentation of the NAB specific usage rules.\n\n**External Documentation:**",
+        "externalDocs": {
+          "url": "https://www2.swift.com/mystandards/#/mx/pain.002.001.06",
+          "description": "SWIFT ISO 20022 Standards - Customer Payment Status Report V06 (pain.002.001.06)"
+        }
+      },
+      "OriginalTransactionReference20": {
+        "xml": {
+          "name": "OrgnlTxRef",
+          "prefix": "ns2"
+        },
+        "type": "object",
+        "properties": {
+          "amt": {
+            "$ref": "#/components/schemas/AmountType4Choice"
+          },
+          "cdtr": {
+            "$ref": "#/components/schemas/CdtrPartyIdentification43"
+          },
+          "dbtr": {
+            "$ref": "#/components/schemas/DbtrPartyIdentification43"
+          },
+          "rmtInf": {
+            "$ref": "#/components/schemas/RemittanceInformation10"
+          },
+          "cdtrAgt": {
+            "$ref": "#/components/schemas/CdtrAgt"
+          },
+          "cdtrAcct": {
+            "$ref": "#/components/schemas/CdtrAcct"
+          },
+          "dbtrAcct": {
+            "$ref": "#/components/schemas/DbtrAcct"
+          },
+          "reqdExctnDt": {
+            "xml": {
+              "name": "ReqdExctnDt",
+              "prefix": "ns2"
+            },
+            "type": "string",
+            "format": "date",
+            "example": "2021-06-23+10:00",
+            "description": "Date at which the initiating party requests the clearing agent to process the payment.\n\nUsage: This is the date on which the debtor's account is to be debited. If payment by cheque, the date when the cheque must be generated by the bank.\n\n**NAB Fast Payment Usage:** Shall be same as Message Creation Date. If execution date is in future, NAB will reject payment message If Execution date is Past Date, NAB will process the message with current Date as execution date."
+          }
+        }
+      },
+      "ActiveOrHistoricCurrencyAndAmount": {
+        "xml": {
+          "name": "InstdAmt",
+          "prefix": "ns2"
+        },
+        "type": "object",
+        "required": [
+          "ccy",
+          "value"
+        ],
+        "properties": {
+          "ccy": {
+            "xml": {
+              "name": "Ccy",
+              "attribute": true
+            },
+            "enum": [
+              "AUD"
+            ],
+            "type": "string",
+            "description": "Medium of exchange of currency."
+          },
+          "value": {
+            "type": "number",
+            "example": "16.00",
+            "minimum": 0,
+            "exclusiveMinimum": true
+          }
+        },
+        "description": "Amount of money to be moved between the debtor and creditor, before deduction of charges, expressed in the currency as ordered by the initiating party.\n\nUsage: This amount has to be transported unchanged through the\ntransaction chain.\n\nXML Representation: The InstdAmt property includes the XML Attribute: Currency (Ccy) along with the currency amount as inline data.  Currently OpenAPI 3.0 does not support the representation of this type of XML element in JSON.  The JSON representation includes the 'value' property in the object schema.  This results in the example XML being displayed as:\n  \n    <ns2:InstdAmt Ccy=\"AUD\"><value>16.00</value></ns2:InstdAmt>\n    \n  rather than the correct XML representation:\n  \n    <ns2:InstdAmt Ccy=\"AUD\">16.00</ns2:InstdAmt>\n    \n\n**NAB Fast Payment Usage:**  \n  - Must include amount and currency.  \n  - Amount value must match amount in CstmrCdtTrfInitn/GrpHdr/CtrlSum.\n  - \"AUD\" only currency to be provided.  \n  - Amount value shall be always represented in 2 decimal digits.  \n  - Amount value must not be zero.\n"
+      },
+      "GenericOrganisationIdentification1": {
+        "xml": {
+          "name": "Othr",
+          "prefix": "ns2"
+        },
+        "type": "object",
+        "required": [
+          "id"
+        ],
+        "properties": {
+          "id": {
+            "xml": {
+              "name": "Id",
+              "prefix": "ns2"
+            },
+            "enum": [
+              "CUSTAPI"
+            ],
+            "type": "string",
+            "maxLength": 35,
+            "minLength": 1,
+            "description": "Identification assigned by an institution.\n\n**NAB Fast Payment Usage:** Customer will provide Channel Code for each\nAPI Type. Hard code to CUSTAPI"
+          }
+        },
+        "description": "Unique identification of an organisation, as assigned by an institution,\nusing an identification scheme."
+      },
+      "ClearingSystemMemberIdentification2": {
+        "xml": {
+          "name": "ClrSysMmbId",
+          "prefix": "ns2"
+        },
+        "type": "object",
+        "required": [
+          "mmbId"
+        ],
+        "properties": {
+          "mmbId": {
+            "xml": {
+              "name": "MmbId",
+              "prefix": "ns2"
+            },
+            "type": "string",
+            "example": "085116",
+            "maxLength": 35,
+            "minLength": 1,
+            "description": "Identification of a member of a clearing system.\n\n**NAB Fast Payment Usage:** Credit Bank BSB.  Must be populated with the same value as the Creditor Account Id Issuer (i.e. Path: /Document/CstmrCdtTrfInitn/PmtInf/CdtTrfTxInf/CdtrAcct/Id/Othr/Issr)"
+          }
+        },
+        "description": "Information used to identify a member within a clearing system."
+      },
+      "CustomerCreditTransferInitiationV06": {
+        "xml": {
+          "name": "CstmrCdtTrfInitn",
+          "prefix": "ns2"
+        },
+        "type": "object",
+        "title": "Customer Credit Transfer Initiation V06 (pain.001.001.06)",
+        "required": [
+          "grpHdr",
+          "pmtInf"
+        ],
+        "properties": {
+          "grpHdr": {
+            "$ref": "#/components/schemas/GroupHeader48"
+          },
+          "pmtInf": {
+            "xml": {
+              "name": "PmtInf",
+              "prefix": "ns2"
+            },
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/PaymentInstruction16"
+            },
+            "minItems": 1,
+            "description": "Set of characteristics that applies to the debit side of the payment transactions included in the credit transfer initiation."
+          }
+        },
+        "description": "The CustomerCreditTransferInitiation message is sent by the initiating\nparty to the forwarding agent or debtor agent. It is used to request\nmovement of funds from the debtor account to a creditor. \n\n**NAB Fast Payment Usage:**  The API schema and examples provided in this specification describes the minimum set of Customer Credit Transfer Initiation (pain.001) elements expected to be passed by the client application to enable the payment to be successfully processed by NAB.  The NAB Fast Payment API will still accept messages with any additional Customer Credit Transfer Initiation elements as defined in the full [pain.001.001.06.xsd](https://www.iso20022.org/message/14331/download) and pass those elements through to the creditor financial institution.\n\nThe client application should implement the full [pain.001.001.06.xsd](https://www.iso20022.org/message/14331/download) to generate a valid request and use the schema provided in this API specification for documentation of the NAB specific usage rules.\n\n**External Documentation:**",
+        "externalDocs": {
+          "url": "https://www2.swift.com/mystandards/#/mx/pain.001.001.06",
+          "description": "SWIFT ISO 20022 Standards - Customer Credit Transfer Initiation V06 (pain.001.001.06)"
+        }
+      },
+      "FinancialInstitutionIdentification8": {
+        "xml": {
+          "name": "FinInstnId",
+          "prefix": "ns2"
+        },
+        "type": "object",
+        "properties": {
+          "clrSysMmbId": {
+            "$ref": "#/components/schemas/ClearingSystemMemberIdentification2"
+          }
+        },
+        "description": "Unique and unambiguous identification of a financial institution, as assigned under an internationally recognised or proprietary identification scheme."
+      }
+    },
+    "responses": {
+      "Forbidden": {
+        "content": {
+          "application/json": {
+            "schema": {
+              "$ref": "#/components/schemas/GatewayErrorResponse"
+            },
+            "example": {
+              "error": "invalid_request",
+              "error_description": "Forbidden"
+            }
+          }
+        },
+        "description": "Forbidden"
+      },
+      "Unauthorized": {
+        "content": {
+          "application/json": {
+            "schema": {
+              "$ref": "#/components/schemas/GatewayErrorResponse"
+            },
+            "example": {
+              "error": "invalid_token",
+              "error_description": "The access token is invalid or has expired"
+            }
+          }
+        },
+        "description": "Unauthorized"
+      },
+      "NotAcceptable": {
+        "content": {
+          "application/json": {
+            "schema": {
+              "$ref": "#/components/schemas/HTTPHeaderError"
+            },
+            "example": {
+              "path": "/v1/payments/payment-initiation",
+              "error": "Not Acceptable",
+              "status": 406,
+              "message": "",
+              "timestamp": "2021-07-21T02:02:39.365+00:00"
+            }
+          }
+        },
+        "description": "Not Acceptable:\n\nThe requested resource is only capable of generating content not acceptable according to the Accept headers sent in the request.  For example, if the client sends an Accept: application/json header, but the server can only accept application/xml."
+      },
+      "GatewayTimeout": {
+        "content": {
+          "application/json": {
+            "schema": {
+              "$ref": "#/components/schemas/GatewayErrorResponse"
+            },
+            "example": {
+              "error": 504,
+              "error_description": "The upstream server is timing out"
+            }
+          }
+        },
+        "description": "Gateway Timeout"
+      },
+      "TooManyRequests": {
+        "content": {
+          "application/json": {
+            "schema": {
+              "$ref": "#/components/schemas/GatewayErrorResponse"
+            },
+            "example": {
+              "error": "invalid_request",
+              "error_description": "Too many requests"
+            }
+          }
+        },
+        "description": "Too Many Requests"
+      },
+      "ServiceUnavailable": {
+        "content": {
+          "application/json": {
+            "schema": {
+              "$ref": "#/components/schemas/GatewayErrorResponse"
+            },
+            "example": {
+              "error": "invalid_request",
+              "error_description": "Server failure"
+            }
+          }
+        },
+        "description": "Service Unavailable"
+      },
+      "InternalServerError": {
+        "content": {
+          "application/json": {
+            "schema": {
+              "$ref": "#/components/schemas/GatewayErrorResponse"
+            },
+            "example": {
+              "error": "invalid_request",
+              "error_description": "Unexpected error"
+            }
+          }
+        },
+        "description": "Internal Server Error"
+      },
+      "UnsupportedMediaType": {
+        "content": {
+          "application/json": {
+            "schema": {
+              "$ref": "#/components/schemas/HTTPHeaderError"
+            },
+            "example": {
+              "path": "/v1/payments/payment-initiation",
+              "error": "Unsupported Media Type",
+              "status": 415,
+              "message": "",
+              "timestamp": "2021-07-21T02:02:39.365+00:00"
+            }
+          }
+        },
+        "description": "Unsupported Media Type:\n\nThe request entity has a media type which the server or resource does not support.  For example, if the client sends a Content-Type: application/json header, but the server can only accept application/xml."
+      },
+      "PaymentStatusNotFound": {
+        "content": {
+          "application/json": {
+            "schema": {
+              "$ref": "#/components/schemas/PaymentStatusNotFound"
+            }
+          }
+        },
+        "description": "Not Found"
+      },
+      "TechnicalValidationFailed": {
+        "content": {
+          "application/xml": {
+            "schema": {
+              "$ref": "#/components/schemas/ErrorResponse"
+            },
+            "examples": {
+              "xml": {
+                "value": "<?xml version=\"1.0\" encoding=\"UTF-8\" standalone=\"yes\"?>\n<ErrorResponse xmlns:ns2=\"urn:iso:std:iso:20022:tech:xsd:pain.001.001.06\" xmlns:ns3=\"urn:iso:std:iso:20022:tech:xsd:pain.002.001.06\">\n  <Code>RJCT</Code>\n  <Message>Invalid file structure: Error at lineNumber 13 and columnNumber 36</Message>\n  <Description>cvc-complex-type.2.4.b: The content of element 'ns2:Othr' is not complete. One of '{\"urn:iso:std:iso:20022:tech:xsd:pain.001.001.06\":Id}' is expected.</Description>\n</ErrorResponse>",
+                "summary": "A sample XML response"
+              }
+            }
+          }
+        },
+        "description": "Technical Validation Failed:\n\nThis error is returned when the payment request does not comply with the ISO 20022 pain.001.001.06 XML schema definition.  For example, if a mandatory element is missing."
+      }
+    },
+    "parameters": {
+      "NABUserId": {
+        "in": "header",
+        "name": "x-nab-userid",
+        "schema": {
+          "type": "string"
+        },
+        "example": "SANDBOX",
+        "required": true,
+        "description": "NAB assigned user Id used for NAB side processing of requests.  For Sandbox requests then use value of 'SANDBOX'.  The value to be used for Production will be provided by NAB as part of the production on-boarding process."
+      },
+      "PaymentId": {
+        "in": "path",
+        "name": "payment_id",
+        "schema": {
+          "type": "string"
+        },
+        "required": true,
+        "description": "The payment_id provided must be one of:\n  - UETR: The Unique End-to-end Transaction Reference (UETR) value received in the response of an accepted payment initiation request), OR\n  - Instruction Id: Unique ID assigned by instructing party to unambiguously identify transaction as provided in an accepted payment initiation request  "
+      },
+      "NABChannelName": {
+        "in": "header",
+        "name": "x-nab-channel",
+        "schema": {
+          "type": "string"
+        },
+        "example": "AFS-SANDBOX",
+        "required": true,
+        "description": "NAB assigned channel name used for NAB side processing of requests.  For Sandbox requests then use value of 'AFS-SANDBOX'.  The value to be used for Production will be provided by NAB as part of the production on-boarding process."
+      }
+    },
+    "securitySchemes": {
+      "NAB Authentication": {
+        "type": "oauth2",
+        "flows": {
+          "clientCredentials": {
+            "scopes": {
+              "payments:payment.fast:create": "Create Fast Payment",
+              "payments:payment.status:view": "Query payment status",
+              "payments:validations.eligibility:get": "Validate payment"
+            },
+            "tokenUrl": "https://sandbox.api.nab.com.au/v1/idp/oauth/token"
+          }
+        },
+        "description": "NAB APIs use OAuth2.0 Client credentials flow for authentication and authorisation."
+      }
+    }
+  },
+  "x-swagstar": {
+    "category": "Cross Product Operations Payments:Payments Execution"
+  },
+  "externalDocs": {
+    "url": "https://portal-developer.nab.com.au/openapi/external-developer-shell/latest//main/getting-started",
+    "description": "Getting Started"
+  }
+}
