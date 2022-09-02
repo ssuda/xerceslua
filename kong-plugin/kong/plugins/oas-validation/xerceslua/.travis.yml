@@ -1,0 +1,23 @@
+language: cpp
+
+sudo: false
+
+compiler:
+  - clang
+  - gcc
+
+addons:
+  apt:
+    packages:
+      - liblua5.1-0-dev
+      - lua5.1
+      - libxerces-c-dev
+
+cache:
+  - apt
+
+script:
+  - make -C Build/linux/gmake config=release
+  - ls -R bin
+  - cd test
+  - lua test.lua
