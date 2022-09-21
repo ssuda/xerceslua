@@ -1,0 +1,89 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<ns2:Document xmlns:ns2="urn:iso:std:iso:20022:tech:xsd:pain.001.001.06" xmlns:ns3="urn:iso:std:iso:20022:tech:xsd:pain.002.001.06">
+    <ns2:CstmrCdtTrfInitn>
+        <ns2:GrpHdr>
+        <ns2:MsgId>83aac66b262a4616936290095feb8c34</ns2:MsgId>
+        <ns2:CreDtTm>2021-06-23T09:46:12.000+10:00</ns2:CreDtTm>
+        <ns2:NbOfTxs>1</ns2:NbOfTxs>
+        <ns2:CtrlSum>16.00</ns2:CtrlSum>
+        <ns2:InitgPty>
+            <ns2:Id>
+                <ns2:OrgId>
+                    <ns2:Othr>
+                        <ns2:Id>CUSTAPI</ns2:Id>
+                    </ns2:Othr>
+                </ns2:OrgId>
+            </ns2:Id>
+        </ns2:InitgPty>
+        </ns2:GrpHdr>
+        <ns2:PmtInf>
+        <ns2:PmtInfId>83aac66b262a4616936290095feb8c34</ns2:PmtInfId>
+        <ns2:PmtMtd>TRF</ns2:PmtMtd>
+        <ns2:ReqdExctnDt>2021-06-23+10:00</ns2:ReqdExctnDt>
+        <ns2:Dbtr>
+            <ns2:Nm>Sandbox Example Client</ns2:Nm>
+            <ns2:PstlAdr>
+                <ns2:AdrTp>BIZZ</ns2:AdrTp>
+                <ns2:PstCd>3008</ns2:PstCd>
+                <ns2:TwnNm>Docklands</ns2:TwnNm>
+                <ns2:CtrySubDvsn>VIC</ns2:CtrySubDvsn>
+                <ns2:Ctry>AU</ns2:Ctry>
+                <ns2:AdrLine>Level 16, 999 Bourke St</ns2:AdrLine>
+            </ns2:PstlAdr>
+        </ns2:Dbtr>
+        <ns2:DbtrAcct>
+            <ns2:Id>
+                <ns2:Othr>
+                    <ns2:Id>085116123456789</ns2:Id>
+                    <ns2:SchmeNm>
+                        <ns2:Cd>BBAN</ns2:Cd>
+                    </ns2:SchmeNm>
+                    <ns2:Issr>085116</ns2:Issr>
+                </ns2:Othr>
+            </ns2:Id>
+        </ns2:DbtrAcct>
+        <ns2:DbtrAgt>
+            <ns2:FinInstnId>
+                <ns2:BICFI>NATAAU33XXX</ns2:BICFI>
+            </ns2:FinInstnId>
+        </ns2:DbtrAgt>
+        <ns2:CdtTrfTxInf>
+        <ns2:PmtId>
+            <ns2:InstrId>a23657d04d7d11ec81d30242ac130003</ns2:InstrId>
+        </ns2:PmtId>
+            <ns2:PmtTpInf>
+                <ns2:InstrPrty>HIGH</ns2:InstrPrty>
+                <ns2:SvcLvl>
+                    <ns2:Prtry>SCT.04</ns2:Prtry>
+                </ns2:SvcLvl>
+            </ns2:PmtTpInf>
+            <ns2:Amt>
+                <ns2:InstdAmt Ccy="AUD">16.00</ns2:InstdAmt>
+            </ns2:Amt>
+            <ns2:CdtrAgt>
+                <ns2:FinInstnId>
+                    <ns2:ClrSysMmbId>
+                        <ns2:MmbId>732231</ns2:MmbId>
+                    </ns2:ClrSysMmbId>
+                </ns2:FinInstnId>
+            </ns2:CdtrAgt>
+            <ns2:Cdtr>
+                <ns2:Nm>Sandbox Example Business</ns2:Nm>
+            </ns2:Cdtr>
+            <ns2:CdtrAcct>
+                <ns2:Id>
+                    <ns2:Othr>
+                        <ns2:Id>732231987654321</ns2:Id>
+                        <ns2:SchmeNm>
+                            <ns2:Cd>BBAN</ns2:Cd>
+                        </ns2:SchmeNm>
+                        <ns2:Issr>732231</ns2:Issr>
+                    </ns2:Othr>
+                </ns2:Id>
+            </ns2:CdtrAcct>
+            <ns2:InstrForDbtrAgt>83aac66b262a4616936290095feb8c34</ns2:InstrForDbtrAgt>
+            
+        </ns2:CdtTrfTxInf>
+        </ns2:PmtInf>
+    </ns2:CstmrCdtTrfInitn>
+</ns2:Document> 

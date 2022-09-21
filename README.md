@@ -11,23 +11,14 @@ Usage
 ````lua
 assert(require 'xerceslua')
 
-local parser = xerces.XercesDOMParser()
+local parser=xerces.XercesDOMParser()
 parser:loadGrammar("sample.xsd",xerces.GrammarType.SchemaGrammarType)
 parser:setValidationScheme(xerces.ValSchemes.Val_Always)
-
-local log = parser:parse_string([[<?xml version="1.0" encoding="UTF-8"?>
-<libraries xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="sample.xsd">
-	<library>
-		<name>pugilua</name>
-		<url>https://github.com/d-led/pugilua</url>
-		<no_such_field />
-	</library>
-</libraries>]])
-
-print('parse ok: ', log.Ok)
+local log=parser:parse("sample.xml")
+print('parse ok: ',log.Ok)
 if not log.Ok then
     print('error count: ', log.Count)
-    for i = 0,log.Count-1 do
+    for i=0,log.Count-1 do
         local err=log:GetLogEntry(i)
         print(err.SystemId
         		..', l:'..err.LineNumber
@@ -46,23 +37,9 @@ run `test.bat` (or `test.lua`) from the `test` directory.
 Dependencies
 ------------
 
- * [Xerces-C++](http://xerces.apache.org/xerces-c/) 
-````
-Ubuntu:
-# sudo apt install libxerces-c-dev
-
-Mac OS X:
-# brew install xerces-c
-
-Centos:
-# dnf install xerces-c-devel
-````
-
-* Run sample
-````
-$ cd test && lua test.lua
-````
- 
+ * [Xerces-C++](http://xerces.apache.org/xerces-c/) the original library, unpack the source into the xerceslua directory
+ * [lua](http://www.lua.org/) the language, Lua 5.1.4 from [luaforwindows](http://code.google.com/p/luaforwindows/), but it should work for every proper lua which is supported by LuaBridge
+ * [LuaBridge](https://github.com/vinniefalco/LuaBridge) for the declarative bindings to Lua
 
 License
 -------

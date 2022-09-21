@@ -15,6 +15,16 @@
 #include <xercesc/parsers/XercesDOMParser.hpp>
 #include <xercesc/sax/HandlerBase.hpp>
 #include <xercesc/framework/MemBufInputSource.hpp>
+#include <xercesc/framework/Wrapper4InputSource.hpp>
+
+#include <xercesc/util/XMLUni.hpp>
+#include <xercesc/util/XMLString.hpp>
+#include <xercesc/util/PlatformUtils.hpp>
+
+#include <xercesc/dom/DOM.hpp>
+
+#include <xercesc/validators/common/Grammar.hpp>
+#include <xercesc/framework/XMLGrammarPoolImpl.hpp>
 
 using namespace XERCES_CPP_NAMESPACE;
 
@@ -37,23 +47,20 @@ using namespace XERCES_CPP_NAMESPACE;
                 XMLFileLoc LineNumber;
                 XMLFileLoc ColumnNumber;
                 std::string Message;
-                int LogType;
             public:
                 std::string getSystemId() const { return SystemId; }
                 std::string getPublicId() const { return PublicId; }
                 int getLineNumber() const { return (int)LineNumber; }
                 int getColumnNumber() const { return (int)ColumnNumber; }
                 std::string getMessage() const { return Message; }
-                int getLogType() const { return (int)LogType; }
             public:
                 ErrorData(){}
-                ErrorData(std::string s,std::string p,XMLFileLoc l,XMLFileLoc c,std::string m,Type t):
+                ErrorData(std::string s,std::string p,XMLFileLoc l,XMLFileLoc c,std::string m):
                     SystemId(s),
                     PublicId(p),
                     LineNumber(l),
                     ColumnNumber(c),
-                    Message(m),
-                    LogType(t)
+                    Message(m)
                 {}
             };
 
@@ -67,9 +74,8 @@ using namespace XERCES_CPP_NAMESPACE;
                     std::string P,
                     XMLFileLoc L,
                     XMLFileLoc C,
-                    std::string M,
-                    ErrorData::Type T) {
-                        ErrorData Log(S,P,L,C,M,T);
+                    std::string M) {
+                        ErrorData Log(S,P,L,C,M);
                     entries.push_back(Log);
                 }
 
@@ -81,8 +87,8 @@ using namespace XERCES_CPP_NAMESPACE;
                     return entries.size()==0;
                 }
 
-		luabridge::RefCountedPtr<ErrorData> GetLogEntry(size_t pos) const {
-                    if (pos>=0 && pos<entries.size())
+		        luabridge::RefCountedPtr<ErrorData> GetLogEntry(size_t pos) const {
+                    if (pos >= 0 && pos < entries.size())
                         return luabridge::RefCountedPtr<ErrorData>(new ErrorData(entries[pos]));
                     else
                         return luabridge::RefCountedPtr<ErrorData>(new ErrorData);
@@ -92,58 +98,48 @@ using namespace XERCES_CPP_NAMESPACE;
             };
 
             /////////////////////////////////////////////
-            class CustomErrorHandler : public HandlerBase
+            class CustomErrorHandler : public DOMErrorHandler
             {
             public:
-                CustomErrorHandler() {}
-
-                void error(const SAXParseException& e)
-                {
-                    handler(e,ErrorData::Error);
-                }
-
-                void fatalError(const SAXParseException& e)
-                {
-                    handler(e,ErrorData::FatalError);
-                }
-                void warning(const SAXParseException& e)
-                {
-                    handler(e,ErrorData::Warning);
-                }
-
-                ErrorLog const& Get() const {
+                CustomErrorHandler():failed_ (false) {}
+                bool failed () const { return failed_; }
+                ErrorLog& Get() {
                     return Log;
                 }
-            private:
-                void handler(const SAXParseException& e,const ErrorData::Type t)
+                bool handleError (const xercesc::DOMError& e)
                 {
-                    char* s=XMLString::transcode(e.getSystemId());
-                    char* p=XMLString::transcode(e.getPublicId());
-                    char* m=XMLString::transcode(e.getMessage());
-                    std::string S; if (s) S=s;
-                    std::string P; if (p) P=p;
-                    std::string M; if (m) M=m;
-                    Log.AddLogEntry(
-                        S,
-                        P,
-                        e.getLineNumber(),
-                        e.getColumnNumber(),
-                        M,
-                        t
-                        );
-                    XMLString::release(&s);
-                    XMLString::release(&p);
-                    XMLString::release(&m);
+                    bool warn (e.getSeverity() == DOMError::DOM_SEVERITY_WARNING);
 
-                    char* message = XMLString::transcode(e.getMessage());
-#ifdef DEBUG
-                    std::cerr << "line " << e.getLineNumber()
-                        << ", column " << e.getColumnNumber()
-                        << " -> " << message << "\n\n";
-#endif
-                    XMLString::release(&message);
+                    if (!warn)
+                        failed_ = true;
+
+                    DOMLocator* loc (e.getLocation ());
+
+                    char* uri (XMLString::transcode (loc->getURI ()));
+                    char* msg (XMLString::transcode (e.getMessage ()));
+
+                    // cerr << uri << ":"
+                    //     << loc->getLineNumber () << ":" << loc->getColumnNumber () << " "
+                    //     << (warn ? "warning: " : "error: ") << msg << endl;
+
+                    std::string M(msg);
+
+                    Log.AddLogEntry(
+                        "",
+                        "",
+                        loc->getLineNumber (),
+                        loc->getColumnNumber (),
+                        M);
+
+                    XMLString::release (&uri);
+                    XMLString::release (&msg);
+
+                    return true;
                 }
+                
+            private:
                 ErrorLog Log;
+                bool failed_;
             };
 
             ////////// GrammarType
@@ -159,41 +155,110 @@ using namespace XERCES_CPP_NAMESPACE;
             //////////////////////
             class lXercesDOMParser {
             public:
-                void loadGrammar(const char* filename,int grammartype) {
-                    try {
-                        parser.setDoSchema(true);
-                        parser.setDoNamespaces(true);
-                        parser.loadGrammar(filename,(Grammar::GrammarType)grammartype);
-                    } catch (SAXException const& e) {
-                        std::cerr << "loadGrammar: " << e.getMessage() << std::endl;
-                    } catch (XMLException const& e) {
-                        std::cerr << "loadGrammar: " << e.getMessage() << std::endl;
-                    } catch (...) {
-                        std::cerr<<"An error ocurred in loadGrammar"<<std::endl;
-                    }
+
+                lXercesDOMParser() {
+                     MemoryManager* mm (XMLPlatformUtils::fgMemoryManager);
+                     gp  = new XMLGrammarPoolImpl (mm);
+                     parser = create_parser (gp);
                 }
 
-                void setValidationScheme(int scheme) {
-                    parser.setValidationScheme((XercesDOMParser::ValSchemes)scheme);
+                ~lXercesDOMParser() {
+                    parser->release ();
+                    delete gp;
                 }
 
-		luabridge::RefCountedPtr<ErrorLog> parse(const char* filename) {
+                DOMLSParser* create_parser (XMLGrammarPool* pool) {
+                    const XMLCh ls_id [] = {chLatin_L, chLatin_S, chNull};
+
+                    DOMImplementation* impl (
+                        DOMImplementationRegistry::getDOMImplementation (ls_id));
+
+                    DOMLSParser* parser (
+                        impl->createLSParser (
+                        DOMImplementationLS::MODE_SYNCHRONOUS,
+                        0,
+                        XMLPlatformUtils::fgMemoryManager,
+                        pool));
+
+                    DOMConfiguration* conf (parser->getDomConfig ());
+
+                    // Commonly useful configuration.
+                    //
+                    conf->setParameter (XMLUni::fgDOMComments, false);
+                    conf->setParameter (XMLUni::fgDOMDatatypeNormalization, true);
+                    conf->setParameter (XMLUni::fgDOMEntities, false);
+                    conf->setParameter (XMLUni::fgDOMNamespaces, true);
+                    conf->setParameter (XMLUni::fgDOMElementContentWhitespace, false);
+
+                    // Enable validation.
+                    //
+                    conf->setParameter (XMLUni::fgDOMValidate, true);
+                    conf->setParameter (XMLUni::fgXercesSchema, true);
+                    conf->setParameter (XMLUni::fgXercesSchemaFullChecking, false);
+
+                    // Use the loaded grammar during parsing.
+                    //
+                    conf->setParameter (XMLUni::fgXercesUseCachedGrammarInParse, true);
+
+                    // Don't load schemas from any other source (e.g., from XML document's
+                    // xsi:schemaLocation attributes).
+                    //
+                    conf->setParameter (XMLUni::fgXercesLoadSchema, false);
+
+                    // Xerces-C++ 3.1.0 is the first version with working multi
+                    // import support.
+                    //
+                    #if _XERCES_VERSION >= 30100
+                    conf->setParameter (XMLUni::fgXercesHandleMultipleImports, true);
+                    #endif
+
+                    // We will release the DOM document ourselves.
+                    //
+                    conf->setParameter (XMLUni::fgXercesUserAdoptsDOMDocument, true);
+
+                    return parser;
+                }
+
+                luabridge::RefCountedPtr<ErrorLog> loadGrammar(const char* filename, int grammartype) {
                     CustomErrorHandler eh;
-                    parser.setErrorHandler(&eh);
-                    parser.parse(filename);
+                    parser->getDomConfig ()->setParameter (XMLUni::fgDOMErrorHandler, &eh);
+
+                    parser->loadGrammar(filename, Grammar::SchemaGrammarType, true);
                     return luabridge::RefCountedPtr<ErrorLog>(new ErrorLog(eh.Get()));
                 }
 
-        luabridge::RefCountedPtr<ErrorLog> parse_string(const char* xmlstr) {
+                luabridge::RefCountedPtr<ErrorLog> loadGrammarString(const char* xsdstr, int grammartype) {
+                    Wrapper4InputSource source (new xercesc::MemBufInputSource((const XMLByte *)xsdstr, strlen(xsdstr), ""));
                     CustomErrorHandler eh;
-                    parser.setErrorHandler(&eh);
-                    MemBufInputSource src((const XMLByte*)xmlstr, strlen(xmlstr), "dummy", false);
-                    parser.parse(src);
+                    parser->getDomConfig ()->setParameter (XMLUni::fgDOMErrorHandler, &eh);
+
+                    parser->loadGrammar(&source, Grammar::SchemaGrammarType, true);
+                    return luabridge::RefCountedPtr<ErrorLog>(new ErrorLog(eh.Get()));
+                }
+
+                // void setValidationScheme(int scheme) {
+                //     parser->getDomConfig ()->setParameter(setValidationScheme((XercesDOMParser::ValSchemes)scheme));
+                // }
+
+		        luabridge::RefCountedPtr<ErrorLog> parse(const char* filename) {
+                    CustomErrorHandler eh;
+                    parser->getDomConfig ()->setParameter (XMLUni::fgDOMErrorHandler, &eh);
+                    parser->parseURI(filename);
+                    return luabridge::RefCountedPtr<ErrorLog>(new ErrorLog(eh.Get()));
+                }
+
+                luabridge::RefCountedPtr<ErrorLog> parseString(const char* xmlstr) {
+                    Wrapper4InputSource source (new xercesc::MemBufInputSource((const XMLByte *)xmlstr, strlen(xmlstr), ""));
+                    CustomErrorHandler eh;
+                    parser->getDomConfig ()->setParameter (XMLUni::fgDOMErrorHandler, &eh);
+                    parser->parse(&source);
                     return luabridge::RefCountedPtr<ErrorLog>(new ErrorLog(eh.Get()));
                 }
 
             private:
-                XercesDOMParser parser;
+                //XercesDOMParser parser;
+                XMLGrammarPool* gp;
+                DOMLSParser* parser;
             };
         }
 }
@@ -243,15 +308,15 @@ void register_xerceslua (lua_State* L) {
             .addProperty("LineNumber",&ErrorData::getLineNumber)
             .addProperty("ColumnNumber",&ErrorData::getColumnNumber)
             .addProperty("Message",&ErrorData::getMessage)
-            .addProperty("LogType",&ErrorData::getLogType)
         .endClass()
 
         .beginClass<lXercesDOMParser>("XercesDOMParser")
             .addConstructor<void (*)()>()
             .addFunction("loadGrammar",&lXercesDOMParser::loadGrammar)
-            .addFunction("setValidationScheme",&lXercesDOMParser::setValidationScheme)
+            .addFunction("loadGrammarString",&lXercesDOMParser::loadGrammarString)
+            // .addFunction("setValidationScheme",&lXercesDOMParser::setValidationScheme)
             .addFunction("parse",&lXercesDOMParser::parse)
-            .addFunction("parse_string",&lXercesDOMParser::parse_string)
+            .addFunction("parseString",&lXercesDOMParser::parseString)
         .endClass()
 
         .endNamespace()
